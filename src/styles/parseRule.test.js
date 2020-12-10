@@ -13,4 +13,13 @@ describe("Parsing Js defined styles", () => {
       value: "blue",
     });
   });
+
+  test("parse camelCase property", () => {
+    const res = parseRule({
+      rule: {
+        fontSize: "14px",
+      },
+    });
+    expect(res[0]).toMatchObject({ property: "font-size", value: "14px" });
+  });
 });

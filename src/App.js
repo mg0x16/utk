@@ -7,14 +7,14 @@ const useStyles = makeStyles({
     margin: "100px auto",
     border: "2px solid red",
     padding: "5px",
-    "background-color": "yellow",
+    backgroundColor: "yellow",
     width: "80%",
   },
   text: {
-    "text-align": "center",
+    textAlign: "center",
     color: "blue",
-    "font-size": "28px",
-    "font-weight": "bold",
+    fontSize: 28,
+    fontWeight: "bold",
   },
 });
 
