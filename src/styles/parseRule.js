@@ -3,8 +3,10 @@ const replaceCamelCaseWithHyph = s =>
 
 const noAnd = s => s.replace(/&/g, "");
 
-const parseValue = v => {
+const parseValue = (v, props) => {
   if (typeof v === "number") return `${v}px`;
+
+  if (typeof v === "function") return v(props);
 
   return v;
 };
@@ -34,7 +36,7 @@ const parseRule = ({ rule, props, child = "", media = "" }) => {
 
     declarations.push({
       property: replaceCamelCaseWithHyph(key),
-      value: parseValue(rule[key]),
+      value: parseValue(rule[key], props),
     });
   });
 
