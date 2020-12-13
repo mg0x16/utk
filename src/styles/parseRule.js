@@ -3,27 +3,26 @@ const replaceCamelCaseWithHyph = s =>
 
 const noAnd = s => s.replace(/&/g, "");
 
-const parseRule = ({ rule, props }) => {
+const parseRule = ({ rule, props, child = "", media = "" }) => {
   const rules = [];
   const declarations = [];
 
   Object.keys(rule).forEach(key => {
-    // detected nest pseudo-classes and parse them
+    // nested rules either by pseudo-classes or media query
     if (typeof rule[key] === "object") {
+      const hasMedia = /^@/.test(key) ? key : "";
+      const c = hasMedia ? "" : noAnd(key);
+
       const nestedRule = rule[key];
-      const dd = [];
-      Object.keys(nestedRule).forEach(nr => {
-        dd.push({
-          property: replaceCamelCaseWithHyph(nr),
-          value: nestedRule[nr],
-        });
+      parseRule({
+        rule: nestedRule,
+        media: hasMedia || media,
+        child: c,
+        props,
+      }).forEach(r => {
+        rules.push(r);
       });
-      if (dd.length) {
-        rules.push({
-          declarations: dd,
-          child: noAnd(key),
-        });
-      }
+
       return;
     }
 
@@ -36,7 +35,8 @@ const parseRule = ({ rule, props }) => {
   if (declarations.length) {
     rules.unshift({
       declarations,
-      child: "",
+      child,
+      media,
     });
   }
   return rules;

@@ -44,6 +44,7 @@ const makeStyles = stylesOrFunc => {
               createCSSDeclaration(d.property, d.value),
             ),
             child: item.child,
+            media: item.media,
           });
 
           insert(cssRule);

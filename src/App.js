@@ -8,14 +8,20 @@ const useStyles = makeStyles({
     border: "2px solid red",
     padding: "5px",
     backgroundColor: "yellow",
-    width: "80%",
-    "&:hover": {
+    width: "50%",
+    ":hover": {
       backgroundColor: "green",
+    },
+    "@media (min-width: 40em)": {
+      width: "100%",
+      ":hover": {
+        backgroundColor: "orange",
+      },
     },
   },
   text: {
     textAlign: "center",
-    color: "blue",
+    color: "black",
     fontSize: "28px",
     fontWeight: "bold",
   },
@@ -25,8 +31,10 @@ const App = () => {
   const classes1 = useStyles();
 
   return (
-    <div className={classes1.root}>
-      <p className={classes1.text}>UTK</p>
+    <div>
+      <div className={classes1.root}>
+        <p className={classes1.text}>UTK</p>
+      </div>
     </div>
   );
 };

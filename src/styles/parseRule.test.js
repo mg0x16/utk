@@ -9,7 +9,6 @@ describe("Parsing Js defined styles", () => {
     const res = parseRule({ rule: r });
     expect(res.length).toBe(1);
     expect(res[0]).toMatchObject({
-      child: "",
       declarations: [
         { property: "color", value: "red" },
         { property: "background-color", value: "blue" },
@@ -25,7 +24,6 @@ describe("Parsing Js defined styles", () => {
     });
     expect(res.length).toBe(1);
     expect(res[0]).toMatchObject({
-      child: "",
       declarations: [
         {
           property: "font-size",
@@ -46,7 +44,6 @@ describe("Parsing Js defined styles", () => {
     });
     expect(res.length).toBe(2);
     expect(res[0]).toMatchObject({
-      child: "",
       declarations: [
         {
           property: "color",
@@ -69,18 +66,75 @@ describe("Parsing Js defined styles", () => {
   test("parse nested pseudo-classes rule only", () => {
     const res = parseRule({
       rule: {
-        "&:hover": {
+        "&::after": {
           color: "red",
         },
       },
     });
     expect(res.length).toBe(1);
     expect(res[0]).toMatchObject({
-      child: ":hover",
+      child: "::after",
       declarations: [
         {
           property: "color",
           value: "red",
+        },
+      ],
+    });
+  });
+
+  test("parse nested media-query rule", () => {
+    const res = parseRule({
+      rule: {
+        "@media (min-width: 40em)": {
+          width: "60%",
+        },
+      },
+    });
+
+    expect(res.length).toBe(1);
+    expect(res[0]).toMatchObject({
+      media: "@media (min-width: 40em)",
+      child: "",
+      declarations: [
+        {
+          property: "width",
+          value: "60%",
+        },
+      ],
+    });
+  });
+
+  test("parse nested media-query with nested pseudo-classes rule", () => {
+    const res = parseRule({
+      rule: {
+        "@media (min-width: 40em)": {
+          width: "60%",
+          ":hover": {
+            width: "90%",
+          },
+        },
+      },
+    });
+
+    expect(res.length).toBe(2);
+    expect(res[0]).toMatchObject({
+      media: "@media (min-width: 40em)",
+      child: "",
+      declarations: [
+        {
+          property: "width",
+          value: "60%",
+        },
+      ],
+    });
+    expect(res[1]).toMatchObject({
+      media: "@media (min-width: 40em)",
+      child: ":hover",
+      declarations: [
+        {
+          property: "width",
+          value: "90%",
         },
       ],
     });
