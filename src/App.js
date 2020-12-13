@@ -9,11 +9,14 @@ const useStyles = makeStyles({
     padding: "5px",
     backgroundColor: "yellow",
     width: "80%",
+    "&:hover": {
+      backgroundColor: "green",
+    },
   },
   text: {
     textAlign: "center",
     color: "blue",
-    fontSize: 28,
+    fontSize: "28px",
     fontWeight: "bold",
   },
 });

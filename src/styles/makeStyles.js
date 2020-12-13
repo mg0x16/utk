@@ -24,27 +24,30 @@ const makeStyles = stylesOrFunc => {
         const parsed = parseRule({ rule, props });
 
         // check if in cache
-        const cacheKey = JSON.stringify(parsed);
+        const cacheKey = JSON.stringify(parsed).replace(
+          /[&\/\\#,+()$~%.'":*?<>{}]/g,
+          "",
+        );
+
         if (cache[cacheKey]) {
           return { ...acc, [key]: cache[cacheKey] };
         }
 
-        // create css declaration
-        const cssDeclarations = parsed.map(p =>
-          createCSSDeclaration(p.property, p.value),
-        );
-
-        // create css className
+        // generate css className
         const className = createClassName();
 
         // create css rule
-        const cssRule = createCSSRule({
-          selector: className,
-          declarations: cssDeclarations,
-        });
+        parsed.forEach(item => {
+          const cssRule = createCSSRule({
+            selector: className,
+            declarations: item.declarations.map(d =>
+              createCSSDeclaration(d.property, d.value),
+            ),
+            child: item.child,
+          });
 
-        // inject css rule to style sheet
-        insert(cssRule);
+          insert(cssRule);
+        });
 
         // save in cache
         cache[cacheKey] = className;
@@ -55,4 +58,3 @@ const makeStyles = stylesOrFunc => {
 };
 
 export default makeStyles;
-
