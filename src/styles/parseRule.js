@@ -11,7 +11,7 @@ const parseValue = (v, props) => {
   return v;
 };
 
-const parseRule = ({ rule, props, child = "", media = "" }) => {
+const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
   const rules = [];
   const declarations = [];
 

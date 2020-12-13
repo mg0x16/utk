@@ -156,4 +156,25 @@ describe("Parsing Js defined styles", () => {
       ],
     });
   });
+
+  test("parse dynamic values (variable sent as props)", () => {
+    const res = parseRule({
+      rule: {
+        color: ({ c }) => c,
+      },
+      props: {
+        c: "green",
+      },
+    });
+
+    expect(res.length).toBe(1);
+    expect(res[0]).toMatchObject({
+      declarations: [
+        {
+          property: "color",
+          value: "green",
+        },
+      ],
+    });
+  });
 });
