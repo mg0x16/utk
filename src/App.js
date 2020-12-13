@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "./styles";
 
@@ -7,36 +7,38 @@ const useStyles = makeStyles({
     margin: "100px auto",
     border: "2px solid red",
     padding: "5px",
-    backgroundColor: "yellow",
-    width: "50%",
+    width: "90%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "red",
     ":hover": {
       backgroundColor: "green",
     },
     "@media (min-width: 40em)": {
-      width: "90%",
       ":hover": {
-        backgroundColor: "orange",
+        backgroundColor: ({ color }) => color,
       },
-    },
-  },
-  text: {
-    textAlign: "center",
-    color: "black",
-    fontWeight: "bold",
-    fontSize: 22,
-    "@media (min-width: 40em)": {
-      fontSize: 48,
+      width: "50%",
     },
   },
 });
 
 const App = () => {
-  const classes1 = useStyles();
+  const [c, setC] = useState("yellow");
+
+  const classes = useStyles({ color: c });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setC("orange");
+    }, 2000);
+  }, []);
 
   return (
     <div>
-      <div className={classes1.root}>
-        <p className={classes1.text}>UTK</p>
+      <div className={classes.root}>
+        <p>UTK</p>
       </div>
     </div>
   );
