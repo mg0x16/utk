@@ -13,7 +13,7 @@ const useStyles = makeStyles({
       backgroundColor: "green",
     },
     "@media (min-width: 40em)": {
-      width: "100%",
+      width: "90%",
       ":hover": {
         backgroundColor: "orange",
       },
@@ -22,8 +22,11 @@ const useStyles = makeStyles({
   text: {
     textAlign: "center",
     color: "black",
-    fontSize: "28px",
     fontWeight: "bold",
+    fontSize: 22,
+    "@media (min-width: 40em)": {
+      fontSize: 48,
+    },
   },
 });
 

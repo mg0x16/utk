@@ -24,10 +24,7 @@ const makeStyles = stylesOrFunc => {
         const parsed = parseRule({ rule, props });
 
         // check if in cache
-        const cacheKey = JSON.stringify(parsed).replace(
-          /[&\/\\#,+()$~%.'":*?<>{}]/g,
-          "",
-        );
+        const cacheKey = JSON.stringify(parsed);
 
         if (cache[cacheKey]) {
           return { ...acc, [key]: cache[cacheKey] };

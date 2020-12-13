@@ -33,6 +33,23 @@ describe("Parsing Js defined styles", () => {
     });
   });
 
+  test("parse numeric type for values", () => {
+    const res = parseRule({
+      rule: {
+        padding: 14,
+      },
+    });
+    expect(res.length).toBe(1);
+    expect(res[0]).toMatchObject({
+      declarations: [
+        {
+          property: "padding",
+          value: "14px",
+        },
+      ],
+    });
+  });
+
   test("parse rule with pseudo-classes nested", () => {
     const res = parseRule({
       rule: {
