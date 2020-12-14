@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState, useRef } from "react";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import _ from "lodash";
 
@@ -10,6 +10,9 @@ import parseRule from "./parseRule";
 const stylesReducer = (styles, type, props) => {
   return Object.keys(styles).reduce((acc, key) => {
     const rule = styles[key][type];
+
+    // return if no declarations found
+    if (!Object.keys(rule).length) return acc;
 
     // parse css in js rule
     const parsed = parseRule({ rule, props });

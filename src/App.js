@@ -1,46 +1,40 @@
 import React, { useState, useEffect } from "react";
 
-import { makeStyles } from "./styles";
+import { makeStyles, makeComponent } from "./styles";
 
 const useStyles = makeStyles({
   root: {
+    padding: 40,
+  },
+});
+
+const Box = makeComponent("div")(
+  {
     margin: "100px auto",
     border: "2px solid red",
-    padding: "5px",
     width: "90%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "red",
-    ":hover": {
-      backgroundColor: "green",
-    },
-    "@media (min-width: 40em)": {
-      ":hover": {
-        backgroundColor: ({ color }) => color,
-      },
-      width: "50%",
-    },
+    backgroundColor: ({ color }) => color,
   },
-});
+  ["color", "w"],
+);
 
 const App = () => {
-  const [c, setC] = useState("yellow");
-
-  const classes = useStyles({ color: c });
+  const [color, setColor] = useState("yellow");
+  const classes = useStyles();
 
   useEffect(() => {
     setTimeout(() => {
-      setC("orange");
+      setColor("green");
     }, 2000);
   }, []);
 
   return (
-    <div>
-      <div className={classes.root}>
-        <p>UTK</p>
-      </div>
-    </div>
+    <Box color={color} className={classes.root}>
+      <p>UTK</p>
+    </Box>
   );
 };
 
