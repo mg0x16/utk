@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
+import useDeepCompareEffect from "use-deep-compare-effect";
 import _ from "lodash";
 
 import { createCSSDeclaration, createClassName, createCSSRule } from "./css";
@@ -91,6 +92,10 @@ const makeStyles = stylesOrFunc => {
   }, {});
 
   return (props = {}) => {
+    // const [prevProps, setPrevProps] = useState(props);
+    const [updateDynamicClasses, setUpdateDynamicClasses] = useState(false);
+    const firstUpdate = useRef(false);
+
     // generate static classes alone to prevent recomputing
     const staticClasses = useMemo(() => {
       return stylesReducer(seperatedStyles, "statics");
@@ -99,6 +104,16 @@ const makeStyles = stylesOrFunc => {
     // generate dynamic classes when ever props change
     const dynamicsClasses = useMemo(() => {
       return stylesReducer(seperatedStyles, "dynamics", props);
+      // eslint-disable-next-line
+    }, [updateDynamicClasses]);
+
+    useDeepCompareEffect(() => {
+      if (firstUpdate.current) {
+        setUpdateDynamicClasses(s => !s);
+      } else {
+        firstUpdate.current = true;
+      }
+      // eslint-disable-next-line
     }, [props]);
 
     // merge classes
