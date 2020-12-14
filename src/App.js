@@ -12,11 +12,11 @@ const Box = makeComponent("div")(
   {
     margin: "100px auto",
     border: "2px solid red",
-    width: "90%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: ({ color }) => color,
+    width: ({ w }) => w,
   },
   ["color", "w"],
 );
@@ -32,7 +32,7 @@ const App = () => {
   }, []);
 
   return (
-    <Box color={color} className={classes.root}>
+    <Box color={color} className={classes.root} w={300}>
       <p>UTK</p>
     </Box>
   );

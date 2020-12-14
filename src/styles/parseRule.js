@@ -6,7 +6,7 @@ const noAnd = s => s.replace(/&/g, "");
 const parseValue = (v, props) => {
   if (typeof v === "number") return `${v}px`;
 
-  if (typeof v === "function") return v(props);
+  if (typeof v === "function") return parseValue(v(props));
 
   return v;
 };
