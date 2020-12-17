@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 
 import { makeStyles, makeComponent } from "./styles";
 
-const useStyles = makeStyles({
-  root: {
-    padding: 40,
+import { system } from "./systems/core";
+
+const exp = {
+  bg: {
+    property: "backgroundColor",
   },
-});
+  backgroundColor: {
+    property: "backgroundColor",
+  },
+};
 
 const Box = makeComponent("div")(
   {
@@ -15,15 +20,13 @@ const Box = makeComponent("div")(
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: ({ color }) => color,
-    width: ({ w }) => w,
+    ...system(exp),
   },
-  ["color", "w"],
+  ["bg", "backgroundColor"],
 );
 
 const App = () => {
   const [color, setColor] = useState("yellow");
-  const classes = useStyles();
 
   useEffect(() => {
     setTimeout(() => {
@@ -32,7 +35,7 @@ const App = () => {
   }, []);
 
   return (
-    <Box color={color} className={classes.root} w={300}>
+    <Box bg={color}>
       <p>UTK</p>
     </Box>
   );
