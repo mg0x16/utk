@@ -1,24 +1,34 @@
 export const parseConfig = config => {
   return Object.keys(config).reduce((acc, k) => {
-    const pr = config[k].property;
+    const properties = config[k].properties || [config[k].property];
 
-    // create new if not exist
-    acc[pr] = acc[pr] || {};
+    properties.forEach(p => {
+      const [n, v] = p.split(":");
 
-    // add new key to point to the property
-    if (acc[pr].keys) {
-      acc[pr].keys.push(k);
-    } else {
-      acc[pr].keys = [k];
-    }
+      if (acc[n]) {
+        acc[n].push(v ? { key: k, value: v } : k);
+      } else {
+        acc[n] = v ? [{ key: k, value: v }] : [k];
+      }
+    });
 
     return acc;
   }, {});
 };
 
-const firstValidValue = (props, keys) => {
-  for (let i = 0; i < Object.keys(keys).length; i++) {
-    const v = props[keys[i]];
+const firstValidValue = (props, selectors) => {
+  for (let i = 0; i < Object.keys(selectors).length; i++) {
+    const currentSelector = selectors[i];
+    let v;
+
+    if (typeof currentSelector === "string") {
+      v = props[currentSelector];
+    } else if (typeof currentSelector === "object") {
+      if (props[currentSelector.key]) {
+        v = currentSelector.value;
+      }
+    }
+
     // return first valid value from props
     if (v !== undefined && v !== null) return v;
   }
@@ -32,7 +42,7 @@ export const system = config => {
   return Object.keys(parsedConfig).reduce((acc, k) => {
     return {
       ...acc,
-      [k]: props => firstValidValue(props, parsedConfig[k].keys),
+      [k]: props => firstValidValue(props, parsedConfig[k]),
     };
   }, {});
 };

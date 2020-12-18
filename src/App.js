@@ -11,6 +11,9 @@ const exp = {
   backgroundColor: {
     property: "backgroundColor",
   },
+  small: {
+    property: "width:300px",
+  },
 };
 
 const Box = makeComponent("div")(
@@ -22,7 +25,7 @@ const Box = makeComponent("div")(
     justifyContent: "center",
     ...system(exp),
   },
-  ["bg", "backgroundColor"],
+  ["bg", "backgroundColor", "small"],
 );
 
 const App = () => {
@@ -35,7 +38,7 @@ const App = () => {
   }, []);
 
   return (
-    <Box bg={color}>
+    <Box small bg={color}>
       <p>UTK</p>
     </Box>
   );
