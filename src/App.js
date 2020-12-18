@@ -4,32 +4,22 @@ import { makeStyles, makeComponent } from "./styles";
 
 import { system } from "./systems/core";
 
-const exp = {
-  bg: {
-    property: "backgroundColor",
-  },
-  backgroundColor: {
-    property: "backgroundColor",
-  },
-  small: {
-    property: "width:300px",
-  },
-};
-
-const Box = makeComponent("div")(
-  {
+const useStyles = makeStyles({
+  root: {
     margin: "100px auto",
     border: "2px solid red",
+    height: 400,
+    width: ["90%", "80%", 800],
+    backgroundColor: ["red", "green", "blue", "yellow"],
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    ...system(exp),
+    alignItems: ["center", "center", "flex-start"],
+    justifyContent: ["center", "center", "flex-start"],
   },
-  ["bg", "backgroundColor", "small"],
-);
+});
 
 const App = () => {
   const [color, setColor] = useState("yellow");
+  const classes = useStyles({ w: 300 });
 
   useEffect(() => {
     setTimeout(() => {
@@ -38,9 +28,9 @@ const App = () => {
   }, []);
 
   return (
-    <Box small bg={color}>
+    <div className={classes.root}>
       <p>UTK</p>
-    </Box>
+    </div>
   );
 };
 

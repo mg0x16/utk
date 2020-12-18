@@ -55,9 +55,11 @@ const seperateRuleToStaticAndDynamic = rule => {
       if (typeof v === "function") {
         return { ...acc, dynamics: { ...acc.dynamics, [r]: v } };
       }
-      if (typeof v !== "object") {
+
+      if (Array.isArray(v) || typeof v !== "object") {
         return { ...acc, statics: { ...acc.statics, [r]: v } };
       }
+
       if (typeof v === "object") {
         const result = seperateRuleToStaticAndDynamic(v);
         const extraS = Object.keys(result.statics).length
