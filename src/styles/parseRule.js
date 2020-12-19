@@ -62,6 +62,24 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
       return;
     }
 
+    // if value is dynamic but returns an array handle it as responsive also
+    if (typeof rule[key] === "function") {
+      const resolvedValue = parseValue(rule[key], props);
+      if (Array.isArray(resolvedValue)) {
+        resolvedValue.forEach((k, index) => {
+          rules.push({
+            declarations: [
+              { property: replaceCamelCaseWithHyph(key), value: parseValue(k) },
+            ],
+            media: mediaQueries[index],
+            child: "",
+          });
+        });
+        return;
+      }
+    }
+
+    // at here value can be either string, number or ( function => that return number,string )
     declarations.push({
       property: replaceCamelCaseWithHyph(key),
       value: parseValue(rule[key], props),

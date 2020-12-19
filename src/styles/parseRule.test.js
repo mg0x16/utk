@@ -205,4 +205,33 @@ describe("Parsing Js defined styles", () => {
       value: "blue",
     });
   });
+
+  test("parse array value if returned from function as responsive values", () => {
+    const res = parseRule({
+      rule: {
+        color: ({ c }) => c,
+      },
+      props: { c: ["red", "green", "blue"] },
+    });
+
+    expect(res.length).toBe(3);
+
+    expect(res[0].media).toEqual(expect.stringContaining("@media"));
+    expect(res[0].declarations[0]).toMatchObject({
+      property: "color",
+      value: "red",
+    });
+
+    expect(res[1].media).toEqual(expect.stringContaining("@media"));
+    expect(res[1].declarations[0]).toMatchObject({
+      property: "color",
+      value: "green",
+    });
+
+    expect(res[2].media).toEqual(expect.stringContaining("@media"));
+    expect(res[2].declarations[0]).toMatchObject({
+      property: "color",
+      value: "blue",
+    });
+  });
 });

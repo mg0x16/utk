@@ -2,24 +2,20 @@ import React, { useState, useEffect } from "react";
 
 import { makeStyles, makeComponent } from "./styles";
 
-import { system } from "./systems/core";
-
 const useStyles = makeStyles({
   root: {
     margin: "100px auto",
     border: "2px solid red",
-    height: 400,
-    width: ["90%", "80%", 800],
-    backgroundColor: ["red", "green", "blue", "yellow"],
+    height: [200, 400, 600],
+    backgroundColor: ({ bg }) => bg,
     display: "flex",
-    alignItems: ["center", "center", "flex-start"],
-    justifyContent: ["center", "center", "flex-start"],
+    width: ({ w }) => w,
   },
 });
 
 const App = () => {
   const [color, setColor] = useState("yellow");
-  const classes = useStyles({ w: 300 });
+  const classes = useStyles({ bg: ["orange", "red", "green", "blue"], w: 500 });
 
   useEffect(() => {
     setTimeout(() => {
