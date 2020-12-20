@@ -4,7 +4,13 @@ const replaceCamelCaseWithHyph = s =>
 const noAnd = s => s.replace(/&/g, "");
 
 const parseValue = (v, props) => {
-  if (typeof v === "number") return `${v}px`;
+  if (typeof v === "number") {
+    if (v === 0) return 0;
+    if (v <= 1 && v > 0) {
+      return `${Math.round(v * 100)}%`;
+    }
+    return `${v}px`;
+  }
 
   if (typeof v === "function") return parseValue(v(props));
 

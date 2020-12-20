@@ -50,6 +50,23 @@ describe("Parsing Js defined styles", () => {
     });
   });
 
+  test("parse numeric fraction as percentage values", () => {
+    const res = parseRule({
+      rule: {
+        width: 1 / 2,
+      },
+    });
+    expect(res.length).toBe(1);
+    expect(res[0]).toMatchObject({
+      declarations: [
+        {
+          property: "width",
+          value: "50%",
+        },
+      ],
+    });
+  });
+
   test("parse rule with pseudo-classes nested", () => {
     const res = parseRule({
       rule: {
