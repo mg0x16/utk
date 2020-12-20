@@ -1,6 +1,13 @@
 export const parseConfig = config => {
   return Object.keys(config).reduce((acc, k) => {
-    const properties = config[k].properties || [config[k].property];
+    let properties;
+    if (typeof config[k] === "boolean" && config[k]) {
+      // default property declaration
+      properties = [k];
+    } else {
+      // custom properties declaration
+      properties = config[k].properties || [config[k].property];
+    }
 
     properties.forEach(p => {
       const [n, v] = p.split(":");

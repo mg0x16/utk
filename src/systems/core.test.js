@@ -13,6 +13,16 @@ describe("Parse system config", () => {
     });
   });
 
+  test("default property declaration", () => {
+    const config = {
+      backgroundColor: true,
+    };
+    const res = parseConfig(config);
+    expect(res).toMatchObject({
+      backgroundColor: ["backgroundColor"],
+    });
+  });
+
   test("boolean property declaration", () => {
     const config = {
       small: {
@@ -62,9 +72,11 @@ describe("Generate style system", () => {
       bg: {
         property: "backgroundColor",
       },
+      color: true,
     };
     const res = system(config);
     expect(res.backgroundColor({ bg: "red" })).toBe("red");
+    expect(res.color({ color: "blue" })).toBe("blue");
   });
 
   test("boolean keys for properties", () => {
