@@ -19,7 +19,6 @@ const stylesReducer = (styles, type, props) => {
 
     // check if in cache
     const cacheKey = JSON.stringify(parsed);
-
     if (cache[cacheKey]) {
       return { ...acc, [key]: cache[cacheKey] };
     }

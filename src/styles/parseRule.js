@@ -14,7 +14,7 @@ const parseValue = (v, props) => {
 
   if (typeof v === "function") return parseValue(v(props));
 
-  return v;
+  return v || "";
 };
 
 const breakpoints = {
@@ -36,6 +36,8 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
   const declarations = [];
 
   Object.keys(rule).forEach(key => {
+    // TODO resolve value at start here to simplify logic and return directly if invalid
+
     // nested rules either by pseudo-classes or media query
     if (typeof rule[key] === "object" && !Array.isArray(rule[key])) {
       const hasMedia = /^@/.test(key) ? key : "";

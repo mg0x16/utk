@@ -1,6 +1,11 @@
 import parseRule from "./parseRule";
 
 describe("Parsing Js defined styles", () => {
+  test("parse empty rule", () => {
+    const res = parseRule({ rule: {} });
+    expect(res).toHaveLength(0);
+  });
+
   test("parse simple rule", () => {
     const r = {
       color: "red",
@@ -20,6 +25,7 @@ describe("Parsing Js defined styles", () => {
     const res = parseRule({
       rule: {
         fontSize: "14px",
+        mozBoxShadow: "5px 10px",
       },
     });
     expect(res.length).toBe(1);
@@ -28,6 +34,10 @@ describe("Parsing Js defined styles", () => {
         {
           property: "font-size",
           value: "14px",
+        },
+        {
+          property: "-moz-box-shadow",
+          value: "5px 10px",
         },
       ],
     });
