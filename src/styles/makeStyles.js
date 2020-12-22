@@ -16,6 +16,7 @@ const stylesReducer = (styles, type, props) => {
 
     // parse css in js rule
     const parsed = parseRule({ rule, props });
+    if (!parsed.length) return acc;
 
     // check if in cache
     const cacheKey = JSON.stringify(parsed);
@@ -121,11 +122,9 @@ const makeStyles = stylesOrFunc => {
     }, [props]);
 
     // merge classes
-    const combinedClasses = Object.assign({}, staticClasses);
-    _.mergeWith(combinedClasses, dynamicsClasses, (a, b) => `${a} ${b}`);
+    const combinedClasses = Object.assign({}, staticClasses, dynamicsClasses);
 
-    // generate dynamic classes
-    return combinedClasses;
+    return _.values(combinedClasses).join(" ");
   };
 };
 

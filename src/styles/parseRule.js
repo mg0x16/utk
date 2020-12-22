@@ -36,7 +36,9 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
   const declarations = [];
 
   Object.keys(rule).forEach(key => {
-    // TODO resolve value at start here to simplify logic and return directly if invalid
+    // resolve value
+    const resolvedValue = parseValue(rule[key], props);
+    if (resolvedValue === "") return;
 
     // nested rules either by pseudo-classes or media query
     if (typeof rule[key] === "object" && !Array.isArray(rule[key])) {
