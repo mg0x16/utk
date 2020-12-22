@@ -6,7 +6,7 @@ const noAnd = s => s.replace(/&/g, "");
 const parseValue = (v, props) => {
   if (typeof v === "number") {
     if (v === 0) return 0;
-    if (v <= 1 && v > 0) {
+    if (Math.abs(v) <= 1 && Math.abs(v) > 0) {
       return `${Math.round(v * 100)}%`;
     }
     return `${v}px`;
