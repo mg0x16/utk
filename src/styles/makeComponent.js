@@ -7,7 +7,11 @@ const h = React.createElement;
 // dynamic variables style props must passed to be used
 const makeComponent = C => {
   return (styles, styleProps) => {
-    const useStyles = makeStyles({ root: styles });
+    const rules = styles.reduce((acc, k, index) => {
+      return { ...acc, [index]: k };
+    }, {});
+
+    const useStyles = makeStyles(rules);
 
     const Comp = props => {
       // copy all props
@@ -25,7 +29,7 @@ const makeComponent = C => {
       const classes = useStyles(nextStyleProps);
 
       // add generated className to props
-      const className = `${classes.root || ""} ${props.className || ""}`.trim();
+      const className = `${classes || ""} ${props.className || ""}`.trim();
 
       if (className.length) {
         nextProps.className = className;

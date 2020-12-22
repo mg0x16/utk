@@ -1,6 +1,6 @@
 const cache = {};
 const cssRules = [];
-const prefix = "_utk";
+const prefix = "_utk_";
 let insert = rule => cssRules.push(rule);
 
 if (typeof document !== "undefined") {

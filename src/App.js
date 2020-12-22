@@ -13,21 +13,21 @@ import shadow, { props as shadowProps } from "./systems/background";
 import typography, { props as typographyProps } from "./systems/typography";
 
 const Box = makeComponent("div")(
-  {
-    boxSizing: "border-box",
-    // FIXME this does not work, it got replaced by property from a system
-    // this should be converted to a composition function
-    minWidth: 0,
-    ...color,
-    ...layout,
-    ...space,
-    ...border,
-    ...flexbox,
-    ...position,
-    ...background,
-    ...shadow,
-    ...typography,
-  },
+  [
+    {
+      boxSizing: "border-box",
+      minWidth: 150,
+    },
+    color,
+    layout,
+    space,
+    border,
+    flexbox,
+    position,
+    background,
+    shadow,
+    typography,
+  ],
   [
     ...colorProps,
     ...layoutProps,

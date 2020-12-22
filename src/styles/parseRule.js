@@ -41,13 +41,12 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
     if (resolvedValue === "") return;
 
     // nested rules either by pseudo-classes or media query
-    if (typeof rule[key] === "object" && !Array.isArray(rule[key])) {
+    if (typeof resolvedValue === "object" && !Array.isArray(resolvedValue)) {
       const hasMedia = /^@/.test(key) ? key : "";
       const c = hasMedia ? "" : noAnd(key);
 
-      const nestedRule = rule[key];
       parseRule({
-        rule: nestedRule,
+        rule: resolvedValue,
         media: hasMedia || media,
         child: c,
         props,
@@ -59,8 +58,8 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
     }
 
     // array values is considered values for responsive sizes
-    if (Array.isArray(rule[key])) {
-      rule[key].forEach((k, index) => {
+    if (Array.isArray(resolvedValue)) {
+      resolvedValue.forEach((k, index) => {
         rules.push({
           declarations: [
             { property: replaceCamelCaseWithHyph(key), value: parseValue(k) },
@@ -72,27 +71,10 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
       return;
     }
 
-    // if value is dynamic but returns an array handle it as responsive also
-    if (typeof rule[key] === "function") {
-      const resolvedValue = parseValue(rule[key], props);
-      if (Array.isArray(resolvedValue)) {
-        resolvedValue.forEach((k, index) => {
-          rules.push({
-            declarations: [
-              { property: replaceCamelCaseWithHyph(key), value: parseValue(k) },
-            ],
-            media: mediaQueries[index],
-            child: "",
-          });
-        });
-        return;
-      }
-    }
-
     // at here value can be either string, number or ( function => that return number,string )
     declarations.push({
       property: replaceCamelCaseWithHyph(key),
-      value: parseValue(rule[key], props),
+      value: resolvedValue,
     });
   });
 
