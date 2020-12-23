@@ -3,6 +3,7 @@ import { system } from "./core";
 const config = {
   fontSize: {
     property: "fontSize",
+    scale: "fontSizes",
   },
 
   fontFamily: true,
@@ -38,4 +39,3 @@ const props = Object.keys(config);
 export { props };
 
 export default typography;
-

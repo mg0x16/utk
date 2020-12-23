@@ -1,4 +1,7 @@
-export const parseConfig = config => {
+import _ from "lodash";
+import { scales } from "./presets";
+
+export const parseConfig = (config, scalesObj = {}) => {
   return Object.keys(config).reduce((acc, k) => {
     let properties;
     if (typeof config[k] === "boolean" && config[k]) {
@@ -13,9 +16,15 @@ export const parseConfig = config => {
       const [n, v] = p.split(":");
 
       if (acc[n]) {
-        acc[n].push(v ? { key: k, value: v } : k);
+        acc[n].push({
+          key: k,
+          value: v || "",
+          scale: scalesObj[config[k].scale],
+        });
       } else {
-        acc[n] = v ? [{ key: k, value: v }] : [k];
+        acc[n] = [
+          { key: k, value: v || "", scale: scalesObj[config[k].scale] },
+        ];
       }
     });
 
@@ -23,16 +32,39 @@ export const parseConfig = config => {
   }, {});
 };
 
+const getScaledValue = (value, scale) => {
+  // ignore scaling if string
+  if (typeof value === "string") return value;
+
+  // return original value of outbound of scale
+  if (typeof value === "number" && (value < 0 || value > scale.length - 1))
+    return value;
+
+  let result;
+  if (Array.isArray(value)) result = value.map(v => getScaledValue(v, scale));
+  else result = scale[value];
+
+  return result;
+};
+
 const firstValidValue = (props, selectors) => {
   for (let i = 0; i < Object.keys(selectors).length; i++) {
     const currentSelector = selectors[i];
     let v;
 
-    if (typeof currentSelector === "string") {
-      v = props[currentSelector];
-    } else if (typeof currentSelector === "object") {
-      if (props[currentSelector.key]) {
+    // get either predefined value for boolean or passed value
+    if (_.has(props, currentSelector.key)) {
+      // boolean
+      if (currentSelector.value && props[currentSelector.key]) {
         v = currentSelector.value;
+      } else if (!currentSelector.value) {
+        // assignment
+        v = props[currentSelector.key];
+      }
+
+      // transform value if scale exists
+      if (currentSelector.scale) {
+        v = getScaledValue(v, currentSelector.scale);
       }
     }
 
@@ -43,13 +75,15 @@ const firstValidValue = (props, selectors) => {
   return null;
 };
 
-export const system = config => {
-  const parsedConfig = parseConfig(config);
+export const system = (config, sc) => {
+  const parsedConfig = parseConfig(config, sc || scales);
 
   return Object.keys(parsedConfig).reduce((acc, k) => {
     return {
       ...acc,
-      [k]: props => firstValidValue(props, parsedConfig[k]),
+      [k]: props => {
+        return firstValidValue(props, parsedConfig[k]);
+      },
     };
   }, {});
 };

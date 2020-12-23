@@ -16,7 +16,6 @@ const Box = makeComponent("div")(
   [
     {
       boxSizing: "border-box",
-      minWidth: 150,
     },
     color,
     layout,
@@ -47,18 +46,19 @@ const App = () => {
       w={[0.9, 0.7, 0.5]}
       h={[300, 400]}
       mx="auto"
-      mt={100}
+      mt={[5, 6, 7]}
       b="2px solid red"
       bold
       italic
       display="flex"
       alignItems="center"
       justifyContent="center"
-      boxShadow="1px 1px 12px 6px rgba(0, 0, 0, 0.4)"
+      boxShadow="inset 1px 1px 12px 6px rgba(0, 0, 0, 0.4)"
       bgImage="url(https://i.pinimg.com/originals/38/f6/60/38f660ef385e3b0f20bb2b3e17f5c72b.jpg)"
       bgRepeat="no-repeat"
       bgSize="cover"
       bgPosition="center center"
+      // minWidth={100}
     >
       <Box
         size={[150, 200]}
@@ -67,10 +67,11 @@ const App = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        fs={30}
+        fs={[3, 5, 6]}
         bg="orange"
         opacity="0.8"
         textShadow="0 0 15px rgba(0, 255, 0, 0.8)"
+        boxShadow="1px 1px 8px 6px rgba(0, 0, 0, 0.4)"
       >
         UTK
       </Box>
