@@ -185,6 +185,42 @@ describe("Generate style system", () => {
     );
   });
 
+  test("transform function definition", () => {
+    const config = {
+      bgImage: {
+        property: "backgroundImage",
+        transform: x => `url(${x})`,
+      },
+    };
+    const res = system(config);
+    expect(res.backgroundImage({ bgImage: "http//www.site.com/image" })).toBe(
+      "url(http//www.site.com/image)",
+    );
+  });
+
+  test("transform function definition with responsive array", () => {
+    const config = {
+      bgImage: {
+        property: "backgroundImage",
+        transform: x => `url(${x})`,
+      },
+    };
+    const res = system(config);
+    expect(
+      res.backgroundImage({
+        bgImage: [
+          "http//www.site.com/image1",
+          "http//www.site.com/image2",
+          "http//www.site.com/image3",
+        ],
+      }),
+    ).toMatchObject([
+      "url(http//www.site.com/image1)",
+      "url(http//www.site.com/image2)",
+      "url(http//www.site.com/image3)",
+    ]);
+  });
+
   test("variants", () => {
     const r = variant({
       primary: {

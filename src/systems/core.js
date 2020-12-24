@@ -20,10 +20,16 @@ export const parseConfig = (config, scalesObj = {}) => {
           key: k,
           value: v || "",
           scale: scalesObj[config[k].scale],
+          transform: config[k].transform,
         });
       } else {
         acc[n] = [
-          { key: k, value: v || "", scale: scalesObj[config[k].scale] },
+          {
+            key: k,
+            value: v || "",
+            scale: scalesObj[config[k].scale],
+            transform: config[k].transform,
+          },
         ];
       }
     });
@@ -47,6 +53,15 @@ const getScaledValue = (value, scale) => {
   return result;
 };
 
+const getTransformedValue = (value, transform) => {
+  let result;
+  if (Array.isArray(value))
+    result = value.map(v => getTransformedValue(v, transform));
+  else result = transform(value);
+
+  return result;
+};
+
 const firstValidValue = (props, selectors) => {
   for (let i = 0; i < Object.keys(selectors).length; i++) {
     const currentSelector = selectors[i];
@@ -60,6 +75,11 @@ const firstValidValue = (props, selectors) => {
       } else if (!currentSelector.value) {
         // assignment
         v = props[currentSelector.key];
+      }
+
+      // transform value if transform exists
+      if (currentSelector.transform) {
+        v = getTransformedValue(v, currentSelector.transform);
       }
 
       // transform value if scale exists

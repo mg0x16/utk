@@ -25,10 +25,11 @@ const breakpoints = {
 };
 
 const mediaQueries = [
-  `@media (max-width: ${breakpoints.xs}px), (min-width: 0)`,
-  `@media (max-width: ${breakpoints.sm}px) and (min-width: ${breakpoints.xs}px), (min-width: ${breakpoints.sm}px)`,
-  `@media (max-width: ${breakpoints.md}px) and (min-width: ${breakpoints.sm}px), (min-width: ${breakpoints.md}px)`,
-  `@media (max-width: ${breakpoints.lg}px) and (min-width: ${breakpoints.md}px), (min-width: ${breakpoints.lg}px)`,
+  `@media (min-width: 0)`,
+  `@media (min-width: ${breakpoints.xs}px)`,
+  `@media (min-width: ${breakpoints.sm}px)`,
+  `@media (min-width: ${breakpoints.md}px)`,
+  `@media (min-width: ${breakpoints.lg}px)`,
 ];
 
 const parseRule = ({ rule, props = {}, child = "", media = "" }) => {

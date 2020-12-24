@@ -5,6 +5,7 @@ const config = {
 
   backgroundImage: {
     property: "backgroundImage",
+    transform: x => `url(${x})`,
   },
   backgroundSize: {
     property: "backgroundSize",

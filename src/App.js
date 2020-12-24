@@ -72,7 +72,10 @@ const App = () => {
       alignItems="center"
       justifyContent="center"
       boxShadow="inset 1px 1px 12px 6px rgba(0, 0, 0, 0.4)"
-      bgImage="url(https://i.pinimg.com/originals/38/f6/60/38f660ef385e3b0f20bb2b3e17f5c72b.jpg)"
+      bgImage={[
+        "https://i.pinimg.com/originals/38/f6/60/38f660ef385e3b0f20bb2b3e17f5c72b.jpg",
+        "https://dzone.com/storage/temp/12846157-triangular-pattern.png",
+      ]}
       bgRepeat="no-repeat"
       bgSize="cover"
       bgPosition="center center"
