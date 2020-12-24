@@ -12,6 +12,8 @@ import background, { props as backgroundProps } from "./systems/shadow";
 import shadow, { props as shadowProps } from "./systems/background";
 import typography, { props as typographyProps } from "./systems/typography";
 
+import variant from "./systems/variant";
+
 const Box = makeComponent("div")(
   [
     {
@@ -26,6 +28,21 @@ const Box = makeComponent("div")(
     background,
     shadow,
     typography,
+    variant({
+      primary: {
+        backgroundColor: "yellow",
+        ":hover": {
+          backgroundColor: "red",
+        },
+      },
+      secondary: {
+        backgroundColor: "magenta",
+        ":hover": {
+          fontSize: [30, 50, 60],
+          backgroundColor: "green",
+        },
+      },
+    }),
   ],
   [
     ...colorProps,
@@ -37,6 +54,7 @@ const Box = makeComponent("div")(
     ...backgroundProps,
     ...shadowProps,
     ...typographyProps,
+    "variant",
   ],
 );
 
@@ -58,7 +76,7 @@ const App = () => {
       bgRepeat="no-repeat"
       bgSize="cover"
       bgPosition="center center"
-      // minWidth={100}
+      variant="primary"
     >
       <Box
         size={[150, 200]}
@@ -72,6 +90,7 @@ const App = () => {
         opacity="0.8"
         textShadow="0 0 15px rgba(0, 255, 0, 0.8)"
         boxShadow="1px 1px 8px 6px rgba(0, 0, 0, 0.4)"
+        variant="secondary"
       >
         UTK
       </Box>

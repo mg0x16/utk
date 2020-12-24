@@ -1,4 +1,6 @@
 import { parseConfig, system } from "./core";
+import variant from "./variant";
+import parseRule from "../styles/parseRule";
 
 describe("Parse system config", () => {
   test("simple property declaration", () => {
@@ -181,5 +183,26 @@ describe("Generate style system", () => {
     expect(res.fontSize({ fs: [1, "50px", 3, 0, 300] })).toEqual(
       expect.arrayContaining([6, "50px", 20, 4, 300]),
     );
+  });
+
+  test("variants", () => {
+    const r = variant({
+      primary: {
+        backgroundColor: "yellow",
+      },
+      secondary: {
+        backgroundColor: "magenta",
+      },
+    });
+
+    const res1 = parseRule({ rule: r, props: {} });
+    expect(res1.length).toBe(0);
+
+    const res2 = parseRule({ rule: r, props: { variant: "primary" } });
+    expect(res2).toMatchObject([
+      {
+        declarations: [{ property: "background-color", value: "yellow" }],
+      },
+    ]);
   });
 });
