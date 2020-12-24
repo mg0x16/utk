@@ -65,7 +65,7 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
             { property: replaceCamelCaseWithHyph(key), value: parseValue(k) },
           ],
           media: mediaQueries[index],
-          child: "",
+          child,
         });
       });
       return;

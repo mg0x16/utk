@@ -184,6 +184,30 @@ describe("Parsing Js defined styles", () => {
     });
   });
 
+  test("parse responsive array inside pseudo-classes rule", () => {
+    const res = parseRule({
+      rule: {
+        ":hover": {
+          width: ["60%", "90%", "100%"],
+        },
+      },
+    });
+
+    expect(res.length).toBe(3);
+
+    expect(res[0].media).toEqual(expect.stringContaining("@media"));
+    expect(res[1].media).toEqual(expect.stringContaining("@media"));
+    expect(res[2].media).toEqual(expect.stringContaining("@media"));
+
+    expect(res[0].child).toBe(":hover");
+    expect(res[1].child).toBe(":hover");
+    expect(res[2].child).toBe(":hover");
+
+    expect(res[0].declarations[0]).toMatchObject({ value: "60%" });
+    expect(res[1].declarations[0]).toMatchObject({ value: "90%" });
+    expect(res[2].declarations[0]).toMatchObject({ value: "100%" });
+  });
+
   test("parse dynamic values (variable sent as props)", () => {
     const res = parseRule({
       rule: {
