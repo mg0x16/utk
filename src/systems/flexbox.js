@@ -16,9 +16,4 @@ const config = {
   order: true,
 };
 
-const flexbox = system(config);
-const props = Object.keys(config);
-
-export { props };
-
-export default flexbox;
+export default { system: system(config), props: Object.keys(config) };

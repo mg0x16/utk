@@ -2,61 +2,47 @@ import React from "react";
 
 import { makeComponent } from "./styles";
 
-import color, { props as colorProps } from "./systems/color";
-import layout, { props as layoutProps } from "./systems/layout";
-import space, { props as spaceProps } from "./systems/space";
-import border, { props as borderProps } from "./systems/border";
-import flexbox, { props as flexboxProps } from "./systems/flexbox";
-import position, { props as positionProps } from "./systems/position";
-import background, { props as backgroundProps } from "./systems/shadow";
-import shadow, { props as shadowProps } from "./systems/background";
-import typography, { props as typographyProps } from "./systems/typography";
-
+import color from "./systems/color";
+import layout from "./systems/layout";
+import space from "./systems/space";
+import border from "./systems/border";
+import flexbox from "./systems/flexbox";
+import position from "./systems/position";
+import background from "./systems/background";
+import shadow from "./systems/shadow";
+import typography from "./systems/typography";
 import variant from "./systems/variant";
 
-const Box = makeComponent("div")(
-  [
-    {
-      boxSizing: "border-box",
+const Box = makeComponent("div")([
+  {
+    boxSizing: "border-box",
+    transition: "all 0.2s",
+  },
+  color,
+  layout,
+  space,
+  border,
+  flexbox,
+  position,
+  background,
+  shadow,
+  typography,
+  variant({
+    primary: {
+      backgroundColor: "yellow",
+      ":hover": {
+        backgroundColor: "red",
+      },
     },
-    color,
-    layout,
-    space,
-    border,
-    flexbox,
-    position,
-    background,
-    shadow,
-    typography,
-    variant({
-      primary: {
-        backgroundColor: "yellow",
-        ":hover": {
-          backgroundColor: "red",
-        },
+    secondary: {
+      backgroundColor: "magenta",
+      ":hover": {
+        fontSize: [30, 50, 60],
+        backgroundColor: "green",
       },
-      secondary: {
-        backgroundColor: "magenta",
-        ":hover": {
-          fontSize: [30, 50, 60],
-          backgroundColor: "green",
-        },
-      },
-    }),
-  ],
-  [
-    ...colorProps,
-    ...layoutProps,
-    ...spaceProps,
-    ...borderProps,
-    ...flexboxProps,
-    ...positionProps,
-    ...backgroundProps,
-    ...shadowProps,
-    ...typographyProps,
-    "variant",
-  ],
-);
+    },
+  }),
+]);
 
 const App = () => {
   return (

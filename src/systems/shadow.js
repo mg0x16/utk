@@ -5,10 +5,4 @@ const config = {
   textShadow: true,
 };
 
-const shadow = system(config);
-const props = Object.keys(config);
-
-export { props };
-
-export default shadow;
-
+export default { system: system(config), props: Object.keys(config) };

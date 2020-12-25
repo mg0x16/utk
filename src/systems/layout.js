@@ -27,8 +27,4 @@ const config = {
 config.w = config.width;
 config.h = config.height;
 
-const layout = system(config);
-const props = Object.keys(config);
-
-export { props };
-export default layout;
+export default { system: system(config), props: Object.keys(config) };

@@ -6,8 +6,18 @@ const h = React.createElement;
 
 // dynamic variables style props must passed to be used
 const makeComponent = C => {
-  return (styles, styleProps) => {
-    const rules = styles.reduce((acc, k, index) => {
+  return stylesOrSystems => {
+    // default variant prop always reserved
+    let styleProps = ["variant"];
+
+    const rules = stylesOrSystems.reduce((acc, k, index) => {
+      // style system is provided
+      if (k.props && k.system) {
+        styleProps = [...styleProps, ...k.props];
+        return { ...acc, [index]: k.system };
+      }
+
+      // normal raw style object is provided
       return { ...acc, [index]: k };
     }, {});
 

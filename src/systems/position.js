@@ -9,9 +9,4 @@ const config = {
   zIndex: true,
 };
 
-const position = system(config);
-const props = Object.keys(config);
-
-export { props };
-export default position;
-
+export default { system: system(config), props: Object.keys(config) };

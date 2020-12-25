@@ -33,9 +33,4 @@ const config = {
 
 config.fs = config.fontSize;
 
-const typography = system(config);
-const props = Object.keys(config);
-
-export { props };
-
-export default typography;
+export default { system: system(config), props: Object.keys(config) };

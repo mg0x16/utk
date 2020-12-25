@@ -23,8 +23,4 @@ config.bgSize = config.backgroundSize;
 config.bgPosition = config.backgroundPosition;
 config.bgRepeat = config.backgroundRepeat;
 
-const background = system(config);
-const props = Object.keys(config);
-
-export { props };
-export default background;
+export default { system: system(config), props: Object.keys(config) };

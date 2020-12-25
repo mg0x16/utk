@@ -13,8 +13,5 @@ const config = {
 config.bg = config.backgroundColor;
 config.c = config.color;
 
-const color = system(config);
-const props = Object.keys(config);
+export default { system: system(config), props: Object.keys(config) };
 
-export { props };
-export default color;

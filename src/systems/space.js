@@ -75,9 +75,5 @@ config.pl = config.paddingLeft;
 config.px = config.paddingX;
 config.py = config.paddingY;
 
-const space = system(config);
-const props = Object.keys(config);
-
-export { props };
-export default space;
+export default { system: system(config), props: Object.keys(config) };
 
