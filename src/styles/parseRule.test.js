@@ -1,6 +1,11 @@
 import parseRule from "./parseRule";
 
 describe("Parsing Js defined styles", () => {
+  test("parse empty rule", () => {
+    const res = parseRule({ rule: {} });
+    expect(res).toHaveLength(0);
+  });
+
   test("parse simple rule", () => {
     const r = {
       color: "red",
@@ -20,6 +25,7 @@ describe("Parsing Js defined styles", () => {
     const res = parseRule({
       rule: {
         fontSize: "14px",
+        mozBoxShadow: "5px 10px",
       },
     });
     expect(res.length).toBe(1);
@@ -28,6 +34,10 @@ describe("Parsing Js defined styles", () => {
         {
           property: "font-size",
           value: "14px",
+        },
+        {
+          property: "-moz-box-shadow",
+          value: "5px 10px",
         },
       ],
     });
@@ -45,6 +55,23 @@ describe("Parsing Js defined styles", () => {
         {
           property: "padding",
           value: "14px",
+        },
+      ],
+    });
+  });
+
+  test("parse numeric fraction as percentage values", () => {
+    const res = parseRule({
+      rule: {
+        width: 1 / 2,
+      },
+    });
+    expect(res.length).toBe(1);
+    expect(res[0]).toMatchObject({
+      declarations: [
+        {
+          property: "width",
+          value: "50%",
         },
       ],
     });
@@ -157,6 +184,30 @@ describe("Parsing Js defined styles", () => {
     });
   });
 
+  test("parse responsive array inside pseudo-classes rule", () => {
+    const res = parseRule({
+      rule: {
+        ":hover": {
+          width: ["60%", "90%", "100%"],
+        },
+      },
+    });
+
+    expect(res.length).toBe(3);
+
+    expect(res[0].media).toEqual(expect.stringContaining("@media"));
+    expect(res[1].media).toEqual(expect.stringContaining("@media"));
+    expect(res[2].media).toEqual(expect.stringContaining("@media"));
+
+    expect(res[0].child).toBe(":hover");
+    expect(res[1].child).toBe(":hover");
+    expect(res[2].child).toBe(":hover");
+
+    expect(res[0].declarations[0]).toMatchObject({ value: "60%" });
+    expect(res[1].declarations[0]).toMatchObject({ value: "90%" });
+    expect(res[2].declarations[0]).toMatchObject({ value: "100%" });
+  });
+
   test("parse dynamic values (variable sent as props)", () => {
     const res = parseRule({
       rule: {
@@ -175,6 +226,63 @@ describe("Parsing Js defined styles", () => {
           value: "green",
         },
       ],
+    });
+  });
+
+  test("parse array value as responsive values", () => {
+    const res = parseRule({
+      rule: {
+        color: ["red", "green", "blue"],
+      },
+    });
+
+    expect(res.length).toBe(3);
+
+    expect(res[0].media).toEqual(expect.stringContaining("@media"));
+    expect(res[0].declarations[0]).toMatchObject({
+      property: "color",
+      value: "red",
+    });
+
+    expect(res[1].media).toEqual(expect.stringContaining("@media"));
+    expect(res[1].declarations[0]).toMatchObject({
+      property: "color",
+      value: "green",
+    });
+
+    expect(res[2].media).toEqual(expect.stringContaining("@media"));
+    expect(res[2].declarations[0]).toMatchObject({
+      property: "color",
+      value: "blue",
+    });
+  });
+
+  test("parse array value if returned from function as responsive values", () => {
+    const res = parseRule({
+      rule: {
+        color: ({ c }) => c,
+      },
+      props: { c: ["red", "green", "blue"] },
+    });
+
+    expect(res.length).toBe(3);
+
+    expect(res[0].media).toEqual(expect.stringContaining("@media"));
+    expect(res[0].declarations[0]).toMatchObject({
+      property: "color",
+      value: "red",
+    });
+
+    expect(res[1].media).toEqual(expect.stringContaining("@media"));
+    expect(res[1].declarations[0]).toMatchObject({
+      property: "color",
+      value: "green",
+    });
+
+    expect(res[2].media).toEqual(expect.stringContaining("@media"));
+    expect(res[2].declarations[0]).toMatchObject({
+      property: "color",
+      value: "blue",
     });
   });
 });
