@@ -121,6 +121,20 @@ describe("Generate style system", () => {
     expect(res.color({ c: "blue" })).toBe("blue");
   });
 
+  test("boolean property in responsive array", () => {
+    const config = {
+      small: {
+        property: "fontSize:14px",
+      },
+    };
+    const res = system(config);
+    expect(res.fontSize({ small: [true, false, true] })).toMatchObject([
+      "14px",
+      "",
+      "14px",
+    ]);
+  });
+
   test("properties value with scale", () => {
     const sc = {
       testScale: [4, 6, 10, 20],

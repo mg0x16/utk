@@ -52,8 +52,6 @@ const App = () => {
       mx="auto"
       mt={[5, 6, 7]}
       b="2px solid red"
-      bold
-      italic
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -74,7 +72,9 @@ const App = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        fs={[3, 5, 6]}
+        fs={7}
+        bold={[false, true]}
+        italic={[false, true]}
         bg="orange"
         opacity="0.8"
         textShadow="0 0 15px rgba(0, 255, 0, 0.8)"

@@ -70,8 +70,14 @@ const firstValidValue = (props, selectors) => {
     // get either predefined value for boolean or passed value
     if (_.has(props, currentSelector.key)) {
       // boolean
-      if (currentSelector.value && props[currentSelector.key]) {
-        v = currentSelector.value;
+      if (currentSelector.value) {
+        // this is boolean value or array of boolean values
+        const r = props[currentSelector.key];
+        if (Array.isArray(r)) {
+          v = r.map(rv => (rv ? currentSelector.value : ""));
+        } else if (r) {
+          v = currentSelector.value;
+        }
       } else if (!currentSelector.value) {
         // assignment
         v = props[currentSelector.key];

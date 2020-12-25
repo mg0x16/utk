@@ -61,13 +61,16 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
     // array values is considered values for responsive sizes
     if (Array.isArray(resolvedValue)) {
       resolvedValue.forEach((k, index) => {
-        rules.push({
-          declarations: [
-            { property: replaceCamelCaseWithHyph(key), value: parseValue(k) },
-          ],
-          media: mediaQueries[index],
-          child,
-        });
+        const rv = parseValue(k);
+        if (rv !== "") {
+          rules.push({
+            declarations: [
+              { property: replaceCamelCaseWithHyph(key), value: rv },
+            ],
+            media: mediaQueries[index],
+            child,
+          });
+        }
       });
       return;
     }
