@@ -80,7 +80,7 @@ const seperateRuleToStaticAndDynamic = rule => {
   );
 };
 
-const makeStyles = stylesOrFunc => {
+const makeStyles = (stylesOrFunc, joined = false) => {
   const styles =
     typeof stylesOrFunc === "object"
       ? stylesOrFunc
@@ -124,7 +124,9 @@ const makeStyles = stylesOrFunc => {
     // merge classes
     const combinedClasses = Object.assign({}, staticClasses, dynamicsClasses);
 
-    return _.values(combinedClasses).join(" ");
+    if (joined) return _.values(combinedClasses).join(" ");
+
+    return combinedClasses;
   };
 };
 

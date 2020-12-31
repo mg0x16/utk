@@ -21,7 +21,7 @@ const makeComponent = C => {
       return { ...acc, [index]: k };
     }, {});
 
-    const useStyles = makeStyles(rules);
+    const useStyles = makeStyles(rules, true);
 
     const Comp = props => {
       // copy all props
