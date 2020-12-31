@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 import makeStyles from "./makeStyles";
 
@@ -23,9 +23,9 @@ const makeComponent = C => {
 
     const useStyles = makeStyles(rules, true);
 
-    const Comp = props => {
+    const Comp = forwardRef((props, ref) => {
       // copy all props
-      const nextProps = {};
+      const nextProps = { ref };
       const nextStyleProps = {};
       Object.keys(props).forEach(key => {
         if (styleProps.includes(key)) {
@@ -46,7 +46,7 @@ const makeComponent = C => {
       }
 
       return h(C, nextProps);
-    };
+    });
 
     return Comp;
   };
