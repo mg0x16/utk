@@ -29,6 +29,9 @@ const config = {
   bold: {
     property: "fontWeight:bold",
   },
+  disabled: {
+    properties: ["cursor:not-allowed", "user-select:none"],
+  },
 };
 
 config.fs = config.fontSize;
