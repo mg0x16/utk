@@ -16,6 +16,13 @@ const config = {
   backgroundRepeat: {
     property: "backgroundRepeat",
   },
+
+  cover: {
+    property: "backgroundSize:cover",
+  },
+  contain: {
+    property: "backgroundSize:contain",
+  },
 };
 
 config.bgImage = config.backgroundImage;

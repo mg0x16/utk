@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { scales } from "./presets";
+import presets from "../theme/presets";
 
 export const parseConfig = (config, scalesObj = {}) => {
   return Object.keys(config).reduce((acc, k) => {
@@ -102,7 +102,7 @@ const firstValidValue = (props, selectors) => {
 };
 
 export const system = (config, sc) => {
-  const parsedConfig = parseConfig(config, sc || scales);
+  const parsedConfig = parseConfig(config, sc || presets);
 
   return Object.keys(parsedConfig).reduce((acc, k) => {
     return {
