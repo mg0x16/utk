@@ -8,6 +8,7 @@ import space from "../systems/space";
 import border from "../systems/border";
 import shadow from "../systems/shadow";
 import typography from "../systems/typography";
+import position from "../systems/position";
 
 const useStyles = makeStyles({
   root: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles({
     ...space.system,
     ...border.system,
     ...shadow.system,
+    ...position.system,
     ...typography.system,
   },
   spin: {
