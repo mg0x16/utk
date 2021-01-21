@@ -7,13 +7,9 @@ import border from "../systems/border";
 import shadow from "../systems/shadow";
 import typography from "../systems/typography";
 
-const Paragraph = makeComponent("p")([
-  color,
-  layout,
-  space,
-  border,
-  shadow,
-  typography,
-]);
+const Paragraph = makeComponent("p")(
+  [color, layout, space, border, shadow, typography],
+  ["typography.root", "typography.paragraph"],
+);
 
 export default Paragraph;

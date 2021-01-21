@@ -7,17 +7,9 @@ import border from "../systems/border";
 import shadow from "../systems/shadow";
 import typography from "../systems/typography";
 
-const Link = makeComponent("a")([
-  {
-    color: "inherit",
-    textDecoration: "none",
-  },
-  color,
-  layout,
-  space,
-  border,
-  shadow,
-  typography,
-]);
+const Link = makeComponent("a")(
+  [color, layout, space, border, shadow, typography],
+  ["link"],
+);
 
 export default Link;

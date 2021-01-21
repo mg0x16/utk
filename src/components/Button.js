@@ -12,24 +12,30 @@ import position from "../systems/position";
 import shadow from "../systems/shadow";
 import typography from "../systems/typography";
 
-const Comp = makeComponent("button")([
-  {
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    userSelect: "none",
-  },
-  color,
-  layout,
-  space,
-  border,
-  flexbox,
-  position,
-  shadow,
-  typography,
-]);
+const Comp = makeComponent("button")(
+  [
+    {
+      boxSizing: "border-box",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      userSelect: "none",
+      outline: "none",
+      cursor: "pointer",
+    },
+    color,
+    layout,
+    space,
+    border,
+    flexbox,
+    position,
+    shadow,
+    typography,
+  ],
+  ["buttons.root"],
+  "buttons",
+);
 
 const Button = ({ text, icon, onClick, disabled, ...rest }) => {
   const handleOnClick = useCallback(
@@ -43,7 +49,7 @@ const Button = ({ text, icon, onClick, disabled, ...rest }) => {
 
   return (
     <Comp onClick={handleOnClick} disabled={disabled} {...rest}>
-      {icon}
+      {icon && text ? React.cloneElement(icon, { pr: 2 }) : icon}
       {text}
     </Comp>
   );
