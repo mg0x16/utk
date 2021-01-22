@@ -6,9 +6,10 @@ import { createCSSDeclaration, createClassName, createCSSRule } from "./css";
 
 import { cache, insert } from "./sheet";
 import parseRule from "./parseRule";
+import defaultPreset from "../theme/defaultPreset";
 
-const stylesReducer = (styles, type, props) => {
-  return Object.keys(styles).reduce((acc, key) => {
+const stylesReducer = (styles, type, props) =>
+  Object.keys(styles).reduce((acc, key) => {
     const rule = styles[key][type];
 
     // return if no declarations found
@@ -46,10 +47,9 @@ const stylesReducer = (styles, type, props) => {
 
     return { ...acc, [key]: className };
   }, {});
-};
 
-const seperateRuleToStaticAndDynamic = rule => {
-  return Object.keys(rule).reduce(
+const seperateRuleToStaticAndDynamic = rule =>
+  Object.keys(rule).reduce(
     (acc, r) => {
       const v = rule[r];
       if (typeof v === "function") {
@@ -78,14 +78,13 @@ const seperateRuleToStaticAndDynamic = rule => {
     },
     { dynamics: {}, statics: {} },
   );
-};
 
-const makeStyles = (stylesOrFunc, joined = false) => {
+const makeStyles = theme => (stylesOrFunc, joined = false) => {
   const styles =
     typeof stylesOrFunc === "object"
       ? stylesOrFunc
       : typeof stylesOrFunc === "function"
-      ? stylesOrFunc()
+      ? stylesOrFunc(theme)
       : {};
 
   // seperate dynamic props from static (passed props vs literals data)
@@ -102,15 +101,18 @@ const makeStyles = (stylesOrFunc, joined = false) => {
     const firstUpdate = useRef(false);
 
     // generate static classes alone to prevent recomputing
-    const staticClasses = useMemo(() => {
-      return stylesReducer(seperatedStyles, "statics");
-    }, []);
+    const staticClasses = useMemo(
+      () => stylesReducer(seperatedStyles, "statics"),
+      [],
+    );
 
     // generate dynamic classes when ever props change
-    const dynamicsClasses = useMemo(() => {
-      return stylesReducer(seperatedStyles, "dynamics", props);
+    const dynamicsClasses = useMemo(
+      () => stylesReducer(seperatedStyles, "dynamics", props),
+
       // eslint-disable-next-line
-    }, [updateDynamicClasses]);
+      [updateDynamicClasses],
+    );
 
     useDeepCompareEffect(() => {
       if (firstUpdate.current) {
@@ -122,7 +124,7 @@ const makeStyles = (stylesOrFunc, joined = false) => {
     }, [props]);
 
     // merge classes
-    const combinedClasses = Object.assign({}, staticClasses, dynamicsClasses);
+    const combinedClasses = { ...staticClasses, ...dynamicsClasses };
 
     if (joined) return _.values(combinedClasses).join(" ");
 
@@ -130,4 +132,4 @@ const makeStyles = (stylesOrFunc, joined = false) => {
   };
 };
 
-export default makeStyles;
+export default (() => makeStyles(defaultPreset))();

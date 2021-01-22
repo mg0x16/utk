@@ -1,4 +1,4 @@
-import presets from "../theme/presets";
+import defaultPreset from "../theme/defaultPreset";
 
 const replaceCamelCaseWithHyph = s =>
   s.replace(/[A-Z]|^ms|^webkit|^moz/g, "-$&").toLowerCase();
@@ -19,7 +19,9 @@ const parseValue = (v, props) => {
   return v || "";
 };
 
-const mediaQueries = presets.breakpoints.map(p => `@media (min-width: ${p}px)`);
+const mediaQueries = defaultPreset.breakpoints.map(
+  p => `@media (min-width: ${p}px)`,
+);
 
 const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
   const rules = [];

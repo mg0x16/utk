@@ -1,8 +1,9 @@
 import _ from "lodash";
-import presets from "../theme/presets";
 
-export const parseConfig = (config, scalesObj = {}) => {
-  return Object.keys(config).reduce((acc, k) => {
+import defaultPreset from "../theme/defaultPreset";
+
+export const parseConfig = (config, scalesObj = {}) =>
+  Object.keys(config).reduce((acc, k) => {
     let properties;
     if (typeof config[k] === "boolean" && config[k]) {
       // default property declaration
@@ -21,6 +22,7 @@ export const parseConfig = (config, scalesObj = {}) => {
           value: v || "",
           scale: scalesObj[config[k].scale],
           transform: config[k].transform,
+          themeKey: config[k].themeKey,
         });
       } else {
         acc[n] = [
@@ -29,6 +31,7 @@ export const parseConfig = (config, scalesObj = {}) => {
             value: v || "",
             scale: scalesObj[config[k].scale],
             transform: config[k].transform,
+            themeKey: config[k].themeKey,
           },
         ];
       }
@@ -36,7 +39,6 @@ export const parseConfig = (config, scalesObj = {}) => {
 
     return acc;
   }, {});
-};
 
 const getScaledValue = (value, scale) => {
   // ignore scaling if string
@@ -92,6 +94,19 @@ const firstValidValue = (props, selectors) => {
       if (currentSelector.scale) {
         v = getScaledValue(v, currentSelector.scale);
       }
+
+      // if has themeKey
+      if (currentSelector.themeKey) {
+        const selectedThemeProps = _.get(
+          defaultPreset,
+          currentSelector.themeKey,
+        );
+
+        const xv = selectedThemeProps[v];
+        if (xv !== undefined && xv !== null) {
+          v = xv;
+        }
+      }
     }
 
     // return first valid value from props
@@ -102,14 +117,13 @@ const firstValidValue = (props, selectors) => {
 };
 
 export const system = (config, sc) => {
-  const parsedConfig = parseConfig(config, sc || presets);
+  const parsedConfig = parseConfig(config, sc || defaultPreset.scales);
 
-  return Object.keys(parsedConfig).reduce((acc, k) => {
-    return {
+  return Object.keys(parsedConfig).reduce(
+    (acc, k) => ({
       ...acc,
-      [k]: props => {
-        return firstValidValue(props, parsedConfig[k]);
-      },
-    };
-  }, {});
+      [k]: props => firstValidValue(props, parsedConfig[k]),
+    }),
+    {},
+  );
 };

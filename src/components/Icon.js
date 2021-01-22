@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 
 import { makeStyles } from "../styles";
@@ -30,9 +30,13 @@ const useStyles = makeStyles({
 const Icon = ({ icon: TargetIcon, spin, flip, ...rest }) => {
   const classes = useStyles(rest);
 
-  let className = classes.root;
-  if (spin) className += ` ${classes.spin}`;
-  if (flip) className += ` ${classes.flip}`;
+  const className = useMemo(() => {
+    let n = classes.root;
+    if (spin) n += ` ${classes.spin}`;
+    if (flip) n += ` ${classes.flip}`;
+
+    return n;
+  }, [spin, flip, classes]);
 
   return <TargetIcon className={className} />;
 };
