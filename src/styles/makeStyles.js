@@ -8,7 +8,7 @@ import { cache, insert } from "./sheet";
 import parseRule from "./parseRule";
 import defaultPreset from "../theme/defaultPreset";
 
-const stylesReducer = (styles, type, props) =>
+const stylesReducer = (styles, type, props, theme) =>
   Object.keys(styles).reduce((acc, key) => {
     const rule = styles[key][type];
 
@@ -16,7 +16,7 @@ const stylesReducer = (styles, type, props) =>
     if (!Object.keys(rule).length) return acc;
 
     // parse css in js rule
-    const parsed = parseRule({ rule, props });
+    const parsed = parseRule({ rule, props: { ...props, theme } });
     if (!parsed.length) return acc;
 
     // check if in cache
@@ -108,7 +108,7 @@ const makeStyles = theme => (stylesOrFunc, joined = false) => {
 
     // generate dynamic classes when ever props change
     const dynamicsClasses = useMemo(
-      () => stylesReducer(seperatedStyles, "dynamics", props),
+      () => stylesReducer(seperatedStyles, "dynamics", props, theme),
 
       // eslint-disable-next-line
       [updateDynamicClasses],
@@ -124,7 +124,14 @@ const makeStyles = theme => (stylesOrFunc, joined = false) => {
     }, [props]);
 
     // merge classes
-    const combinedClasses = { ...staticClasses, ...dynamicsClasses };
+    const combinedClasses = { ...staticClasses };
+    Object.keys(dynamicsClasses).map(k => {
+      if (combinedClasses[k]) {
+        combinedClasses[k] += ` ${dynamicsClasses[k]}`;
+      } else {
+        combinedClasses[k] = dynamicsClasses[k];
+      }
+    });
 
     if (joined) return _.values(combinedClasses).join(" ");
 

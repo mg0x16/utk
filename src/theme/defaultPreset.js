@@ -1,10 +1,21 @@
-export default {
+const th = {
   palette: {
-    primary: "#90caf9",
+    primary: "#2196f3",
     secondary: "#f48fb1",
     error: "#f44336",
     warning: "#ff9800",
-    info: "#2196f3",
+    info: "#90caf9",
+    success: "#4caf50",
+  },
+};
+
+const preset = theme => ({
+  palette: {
+    primary: "#2196f3",
+    secondary: "#f48fb1",
+    error: "#f44336",
+    warning: "#ff9800",
+    info: "#90caf9",
     success: "#4caf50",
   },
   scales: {
@@ -49,7 +60,7 @@ export default {
   buttons: {
     root: {
       border: "none",
-      backgroundColor: "#2196f3",
+      backgroundColor: theme.palette.primary,
       padding: "10px",
       borderRadius: "4px",
       color: "white",
@@ -64,4 +75,29 @@ export default {
       },
     },
   },
-};
+  form: {
+    label: {},
+    input: {
+      padding: "4px",
+      outlineColor: theme.palette.primary,
+    },
+    select: {
+      outlineColor: theme.palette.primary,
+    },
+    textarea: {
+      outlineColor: theme.palette.primary,
+    },
+    radio: {
+      marginRight: "8px",
+    },
+    checkbox: {
+      marginRight: "8px",
+    },
+    slider: {},
+    switch: {
+      border: `2px solid ${theme.palette.primary}`,
+    },
+  },
+});
+
+export default preset(th);

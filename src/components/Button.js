@@ -37,7 +37,7 @@ const Comp = makeComponent("button")(
   "buttons",
 );
 
-const Button = ({ text, icon, onClick, disabled, ...rest }) => {
+const Button = ({ children, text, icon, onClick, disabled, ...rest }) => {
   const handleOnClick = useCallback(
     e => {
       if (disabled) return;
@@ -49,13 +49,18 @@ const Button = ({ text, icon, onClick, disabled, ...rest }) => {
 
   return (
     <Comp onClick={handleOnClick} disabled={disabled} {...rest}>
-      {icon && text ? React.cloneElement(icon, { pr: 2 }) : icon}
-      {text}
+      {children || (
+        <>
+          {icon && text ? React.cloneElement(icon, { pr: 2 }) : icon}
+          {text}
+        </>
+      )}
     </Comp>
   );
 };
 
 Button.propTypes = {
+  children: PropTypes.node,
   text: PropTypes.string,
   icon: PropTypes.node,
   disabled: PropTypes.bool,
