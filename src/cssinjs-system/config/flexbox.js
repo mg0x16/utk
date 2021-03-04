@@ -19,6 +19,10 @@ const config = {
     property: "flexDirection:row",
   },
 
+  rowReverse: {
+    property: "flexDirection:row-reverse",
+  },
+
   start: {
     property: "justifyContent:flex-start",
   },

@@ -6,9 +6,12 @@ import { createCSSDeclaration, createClassName, createCSSRule } from "./css";
 
 import { cache, insert } from "./sheet";
 import parseRule from "./parseRule";
-import defaultPreset from "../theme/defaultPreset";
 
-const stylesReducer = (styles, type, props, theme) =>
+import defaultPreset from "./defaultPreset";
+
+let UTK_CURRENT_PRESET = defaultPreset;
+
+const stylesReducer = (styles, type, props, mediaQueries) =>
   Object.keys(styles).reduce((acc, key) => {
     const rule = styles[key][type];
 
@@ -16,7 +19,7 @@ const stylesReducer = (styles, type, props, theme) =>
     if (!Object.keys(rule).length) return acc;
 
     // parse css in js rule
-    const parsed = parseRule({ rule, props: { ...props, theme } });
+    const parsed = parseRule({ rule, props, mediaQueries });
     if (!parsed.length) return acc;
 
     // check if in cache
@@ -79,13 +82,17 @@ const seperateRuleToStaticAndDynamic = rule =>
     { dynamics: {}, statics: {} },
   );
 
-const makeStyles = theme => (stylesOrFunc, joined = false) => {
+const makeStyles = preset => (stylesOrFunc, joined = false) => {
   const styles =
     typeof stylesOrFunc === "object"
       ? stylesOrFunc
       : typeof stylesOrFunc === "function"
-      ? stylesOrFunc(theme)
+      ? stylesOrFunc()
       : {};
+
+  const mediaQueries = preset.breakpoints.map(
+    p => `@media (min-width: ${p}px)`,
+  );
 
   // seperate dynamic props from static (passed props vs literals data)
   const seperatedStyles = Object.keys(styles).reduce((acc, key) => {
@@ -96,7 +103,6 @@ const makeStyles = theme => (stylesOrFunc, joined = false) => {
   }, {});
 
   return (props = {}) => {
-    // const [prevProps, setPrevProps] = useState(props);
     const [updateDynamicClasses, setUpdateDynamicClasses] = useState(false);
     const firstUpdate = useRef(false);
 
@@ -108,7 +114,7 @@ const makeStyles = theme => (stylesOrFunc, joined = false) => {
 
     // generate dynamic classes when ever props change
     const dynamicsClasses = useMemo(
-      () => stylesReducer(seperatedStyles, "dynamics", props, theme),
+      () => stylesReducer(seperatedStyles, "dynamics", props, mediaQueries),
 
       // eslint-disable-next-line
       [updateDynamicClasses],
@@ -125,7 +131,7 @@ const makeStyles = theme => (stylesOrFunc, joined = false) => {
 
     // merge classes
     const combinedClasses = { ...staticClasses };
-    Object.keys(dynamicsClasses).map(k => {
+    Object.keys(dynamicsClasses).forEach(k => {
       if (combinedClasses[k]) {
         combinedClasses[k] += ` ${dynamicsClasses[k]}`;
       } else {
@@ -139,4 +145,8 @@ const makeStyles = theme => (stylesOrFunc, joined = false) => {
   };
 };
 
-export default (() => makeStyles(defaultPreset))();
+export const setPreset = preset => {
+  UTK_CURRENT_PRESET = preset;
+};
+
+export default (() => makeStyles(UTK_CURRENT_PRESET))();

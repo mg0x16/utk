@@ -1,5 +1,3 @@
-import defaultPreset from "../theme/defaultPreset";
-
 const replaceCamelCaseWithHyph = s =>
   s.replace(/[A-Z]|^ms|^webkit|^moz/g, "-$&").toLowerCase();
 
@@ -19,11 +17,13 @@ const parseValue = (v, props) => {
   return v || "";
 };
 
-const mediaQueries = defaultPreset.breakpoints.map(
-  p => `@media (min-width: ${p}px)`,
-);
-
-const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
+const parseRule = ({
+  rule,
+  mediaQueries,
+  props = {},
+  child = "",
+  media = "",
+}) => {
   const rules = [];
   const declarations = [];
 
@@ -42,6 +42,7 @@ const parseRule = ({ rule, props = {}, child = "", media = "" }) => {
         media: hasMedia || media,
         child: c,
         props,
+        mediaQueries,
       }).forEach(r => {
         rules.push(r);
       });

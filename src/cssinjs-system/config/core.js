@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import defaultPreset from "../theme/defaultPreset";
+// import defaultPreset from "../theme/defaultPreset";
 
 export const parseConfig = (config, scalesObj = {}) =>
   Object.keys(config).reduce((acc, k) => {
@@ -96,17 +96,17 @@ const firstValidValue = (props, selectors) => {
       }
 
       // if has themeKey
-      if (currentSelector.themeKey) {
-        const selectedThemeProps = _.get(
-          defaultPreset,
-          currentSelector.themeKey,
-        );
+      // if (currentSelector.themeKey) {
+      //   const selectedThemeProps = _.get(
+      //     defaultPreset,
+      //     currentSelector.themeKey,
+      //   );
 
-        const xv = selectedThemeProps[v];
-        if (xv !== undefined && xv !== null) {
-          v = xv;
-        }
-      }
+      //   const xv = selectedThemeProps[v];
+      //   if (xv !== undefined && xv !== null) {
+      //     v = xv;
+      //   }
+      // }
     }
 
     // return first valid value from props
@@ -117,7 +117,8 @@ const firstValidValue = (props, selectors) => {
 };
 
 export const system = (config, sc) => {
-  const parsedConfig = parseConfig(config, sc || defaultPreset.scales);
+  // const parsedConfig = parseConfig(config, sc || defaultPreset.scales);
+  const parsedConfig = parseConfig(config, sc);
 
   return Object.keys(parsedConfig).reduce(
     (acc, k) => ({
