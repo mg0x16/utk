@@ -1,9 +1,11 @@
 import _ from "lodash";
 
-// import defaultPreset from "../theme/defaultPreset";
+import { getPreset } from "../preset";
 
-export const parseConfig = (config, scalesObj = {}) =>
-  Object.keys(config).reduce((acc, k) => {
+export const parseConfig = (config, cc) => {
+  const preset = cc || getPreset();
+
+  return Object.keys(config).reduce((acc, k) => {
     let properties;
     if (typeof config[k] === "boolean" && config[k]) {
       // default property declaration
@@ -20,7 +22,7 @@ export const parseConfig = (config, scalesObj = {}) =>
         acc[n].push({
           key: k,
           value: v || "",
-          scale: scalesObj[config[k].scale],
+          scale: preset.scales[config[k].scale],
           transform: config[k].transform,
           themeKey: config[k].themeKey,
         });
@@ -29,7 +31,7 @@ export const parseConfig = (config, scalesObj = {}) =>
           {
             key: k,
             value: v || "",
-            scale: scalesObj[config[k].scale],
+            scale: preset.scales[config[k].scale],
             transform: config[k].transform,
             themeKey: config[k].themeKey,
           },
@@ -39,24 +41,30 @@ export const parseConfig = (config, scalesObj = {}) =>
 
     return acc;
   }, {});
+};
 
+// handle value scaling
 const getScaledValue = (value, scale) => {
   // ignore scaling if string
   if (typeof value === "string") return value;
 
-  // return original value of outbound of scale
+  // return original value if outbound of scale
   if (typeof value === "number" && (value < 0 || value > scale.length - 1))
     return value;
 
   let result;
+  // scale single value and array of values
   if (Array.isArray(value)) result = value.map(v => getScaledValue(v, scale));
   else result = scale[value];
 
   return result;
 };
 
+// handle value transform using transform fn
 const getTransformedValue = (value, transform) => {
   let result;
+
+  // transform single value and array of values
   if (Array.isArray(value))
     result = value.map(v => getTransformedValue(v, transform));
   else result = transform(value);
@@ -69,19 +77,20 @@ const firstValidValue = (props, selectors) => {
     const currentSelector = selectors[i];
     let v;
 
-    // get either predefined value for boolean or passed value
+    // check if property is passed either  props=value or boolean
     if (_.has(props, currentSelector.key)) {
       // boolean
       if (currentSelector.value) {
-        // this is boolean value or array of boolean values
+        // handle props sent as array of boolean values (for query media)
         const r = props[currentSelector.key];
         if (Array.isArray(r)) {
           v = r.map(rv => (rv ? currentSelector.value : ""));
         } else if (r) {
           v = currentSelector.value;
         }
-      } else if (!currentSelector.value) {
-        // assignment
+      }
+      // assignment props=value
+      else if (!currentSelector.value) {
         v = props[currentSelector.key];
       }
 
@@ -94,19 +103,6 @@ const firstValidValue = (props, selectors) => {
       if (currentSelector.scale) {
         v = getScaledValue(v, currentSelector.scale);
       }
-
-      // if has themeKey
-      // if (currentSelector.themeKey) {
-      //   const selectedThemeProps = _.get(
-      //     defaultPreset,
-      //     currentSelector.themeKey,
-      //   );
-
-      //   const xv = selectedThemeProps[v];
-      //   if (xv !== undefined && xv !== null) {
-      //     v = xv;
-      //   }
-      // }
     }
 
     // return first valid value from props
@@ -117,7 +113,6 @@ const firstValidValue = (props, selectors) => {
 };
 
 export const system = (config, sc) => {
-  // const parsedConfig = parseConfig(config, sc || defaultPreset.scales);
   const parsedConfig = parseConfig(config, sc);
 
   return Object.keys(parsedConfig).reduce(

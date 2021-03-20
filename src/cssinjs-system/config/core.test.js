@@ -1,6 +1,6 @@
 import { parseConfig, system } from "./core";
 import variant from "./variant";
-import parseRule from "../styles/parseRule";
+import parseRule from "../parseRule";
 
 describe("Parse system config", () => {
   test("simple property declaration", () => {
@@ -137,7 +137,9 @@ describe("Generate style system", () => {
 
   test("properties value with scale", () => {
     const sc = {
-      testScale: [4, 6, 10, 20],
+      scales: {
+        testScale: [4, 6, 10, 20],
+      },
     };
 
     const config = {
@@ -147,14 +149,16 @@ describe("Generate style system", () => {
       },
     };
     const res = system(config, sc);
-    sc.testScale.forEach((x, index) => {
+    sc.scales.testScale.forEach((x, index) => {
       expect(res.fontSize({ fs: index })).toBe(x);
     });
   });
 
   test("properties value outbound of scale array return original value", () => {
     const sc = {
-      testScale: [4, 6, 10, 20],
+      scales: {
+        testScale: [4, 6, 10, 20],
+      },
     };
 
     const config = {
@@ -169,7 +173,9 @@ describe("Generate style system", () => {
 
   test("properties with string value ignore scale", () => {
     const sc = {
-      testScale: [4, 6, 10, 20],
+      scales: {
+        testScale: [4, 6, 10, 20],
+      },
     };
 
     const config = {
@@ -184,7 +190,9 @@ describe("Generate style system", () => {
 
   test("properties array value with scale", () => {
     const sc = {
-      testScale: [4, 6, 10, 20],
+      scales: {
+        testScale: [4, 6, 10, 20],
+      },
     };
 
     const config = {

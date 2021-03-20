@@ -3,11 +3,9 @@ import { system } from "./core";
 const config = {
   backgroundColor: {
     property: "backgroundColor",
-    themeKey: "palette",
   },
   color: {
     property: "color",
-    themeKey: "palette",
   },
   opacity: true,
 };

@@ -1,8 +1,6 @@
 import React, { forwardRef } from "react";
-import _ from "lodash";
 
 import makeStyles from "./makeStyles";
-// import variant from "../systems/variant";
 
 import color from "./config/color";
 import layout from "./config/layout";
@@ -36,30 +34,19 @@ const makeComponent = C => (
   // presetPaths = [],
   // variants,
 ) => {
-  // default variant prop always reserved
-  let styleProps = ["variant"];
+  // default _hover is chcked
+  let styleProps = ["_hover"];
 
-  // append preset styles
-  // presetPaths.reverse().forEach(p => {
-  //   if (_.has(preset, p)) {
-  //     stylesOrSystems.unshift(_.get(preset, p));
-  //   }
-  // });
-
-  // append variants if exists
-  // if (variants && _.has(preset, `${variants}.variants`)) {
-  //   stylesOrSystems.push(variant(_.get(preset, `${variants}.variants`)));
-  // }
-
-  // identify style-system definition from normal style rule definition
+  // identify style-systems definition from normal style rule definition
   const rules = stylesOrSystems.reduce((acc, k, index) => {
-    // style system is provided
+    // style system from predefined systems
     if (typeof k === "string") {
       const targetSystem = allSystems[k];
       styleProps = [...styleProps, ...targetSystem.props];
       return { ...acc, [index]: targetSystem.system };
     }
 
+    // style system is provided
     if (k.props && k.system) {
       styleProps = [...styleProps, ...k.props];
       return { ...acc, [index]: k.system };
@@ -68,8 +55,6 @@ const makeComponent = C => (
     // normal raw style object is provided
     return { ...acc, [index]: k };
   }, {});
-
-  // console.log(rules);
 
   const useStyles = makeStyles(rules, true);
 
@@ -89,8 +74,6 @@ const makeComponent = C => (
 
     // create style classes
     const classes = useStyles(nextStyleProps);
-    console.log(classes);
-    console.log("***************");
 
     // add generated className to props
     const className = `${classes || ""} ${props.className || ""}`.trim();
@@ -100,8 +83,6 @@ const makeComponent = C => (
 
     return h(C, nextProps);
   });
-
-  // console.log("--------------------");
 
   return Comp;
 };

@@ -1,4 +1,9 @@
 import parseRule from "./parseRule";
+import { getPreset } from "./preset";
+
+const mediaQueries = getPreset().breakpoints.map(
+  p => `@media (min-width: ${p}px)`,
+);
 
 describe("Parsing Js defined styles", () => {
   test("parse empty rule", () => {
@@ -191,6 +196,7 @@ describe("Parsing Js defined styles", () => {
           width: ["60%", "90%", "100%"],
         },
       },
+      mediaQueries,
     });
 
     expect(res.length).toBe(3);
@@ -234,6 +240,7 @@ describe("Parsing Js defined styles", () => {
       rule: {
         color: ["red", "green", "blue"],
       },
+      mediaQueries,
     });
 
     expect(res.length).toBe(3);
@@ -263,6 +270,7 @@ describe("Parsing Js defined styles", () => {
         color: ({ c }) => c,
       },
       props: { c: ["red", "green", "blue"] },
+      mediaQueries,
     });
 
     expect(res.length).toBe(3);

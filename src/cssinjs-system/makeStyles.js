@@ -7,10 +7,9 @@ import { createCSSDeclaration, createClassName, createCSSRule } from "./css";
 import { cache, insert } from "./sheet";
 import parseRule from "./parseRule";
 
-import defaultPreset from "./defaultPreset";
+import { getPreset } from "./preset";
 
-let UTK_CURRENT_PRESET = defaultPreset;
-
+// this is responsible for converting javascript style object to css and return className
 const stylesReducer = (styles, type, props, mediaQueries) =>
   Object.keys(styles).reduce((acc, key) => {
     const rule = styles[key][type];
@@ -51,6 +50,7 @@ const stylesReducer = (styles, type, props, mediaQueries) =>
     return { ...acc, [key]: className };
   }, {});
 
+// this is to seperate dynamic and static javascript rules style object
 const seperateRuleToStaticAndDynamic = rule =>
   Object.keys(rule).reduce(
     (acc, r) => {
@@ -102,19 +102,33 @@ const makeStyles = preset => (stylesOrFunc, joined = false) => {
     return { ...acc, [key]: result };
   }, {});
 
+  // pseudo-classes sent as props allowed list
+  const plist = ["_hover"];
+
   return (props = {}) => {
     const [updateDynamicClasses, setUpdateDynamicClasses] = useState(false);
     const firstUpdate = useRef(false);
 
     // generate static classes alone to prevent recomputing
     const staticClasses = useMemo(
-      () => stylesReducer(seperatedStyles, "statics"),
+      () => stylesReducer(seperatedStyles, "statics", {}, mediaQueries),
       [],
     );
 
     // generate dynamic classes when ever props change
     const dynamicsClasses = useMemo(
-      () => stylesReducer(seperatedStyles, "dynamics", props, mediaQueries),
+      () => {
+        // append pseudo-class rules of supplied by props
+        plist.forEach(c => {
+          if (props[c]) {
+            seperatedStyles[c] = {
+              dynamics: { [c.replace("_", ":")]: props[c] },
+            };
+          }
+        });
+
+        return stylesReducer(seperatedStyles, "dynamics", props, mediaQueries);
+      },
 
       // eslint-disable-next-line
       [updateDynamicClasses],
@@ -145,8 +159,4 @@ const makeStyles = preset => (stylesOrFunc, joined = false) => {
   };
 };
 
-export const setPreset = preset => {
-  UTK_CURRENT_PRESET = preset;
-};
-
-export default (() => makeStyles(UTK_CURRENT_PRESET))();
+export default (() => makeStyles(getPreset()))();
