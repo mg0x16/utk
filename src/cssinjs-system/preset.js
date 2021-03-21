@@ -240,6 +240,8 @@ const defaultPreset = {
     "9xl": "8rem",
   },
   spaces: {
+    formGap: "0.5rem",
+    btnGap: "0.25rem",
     0: "0",
     0.5: "0.125rem",
     1: "0.25rem",

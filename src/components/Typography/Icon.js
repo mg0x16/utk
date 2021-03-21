@@ -9,6 +9,7 @@ import border from "../../cssinjs-system/config/border";
 import shadow from "../../cssinjs-system/config/shadow";
 import typography from "../../cssinjs-system/config/typography";
 import position from "../../cssinjs-system/config/position";
+import cursor from "../../cssinjs-system/config/cursor";
 
 const useStyles = makeStyles({
   root: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles({
     ...shadow.system,
     ...position.system,
     ...typography.system,
+    ...cursor.system,
   },
   spin: {
     animation: "spinning 1s linear infinite",

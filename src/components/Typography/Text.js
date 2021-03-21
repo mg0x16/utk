@@ -16,14 +16,7 @@ const tags = {
 const Comps = Object.keys(tags).reduce((acc, name) => {
   const tag = tags[name];
 
-  acc[name] = makeComponent(tag)([
-    "color",
-    "layout",
-    "space",
-    "border",
-    "shadow",
-    "typography",
-  ]);
+  acc[name] = makeComponent(tag)(["typography"]);
 
   return acc;
 }, {});

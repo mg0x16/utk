@@ -1,12 +1,5 @@
 import { makeComponent } from "../../cssinjs-system";
 
-const Paragraph = makeComponent("p")([
-  "color",
-  "layout",
-  "space",
-  "border",
-  "shadow",
-  "typography",
-]);
+const Paragraph = makeComponent("p")(["typography"]);
 
 export default Paragraph;

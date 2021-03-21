@@ -15,13 +15,7 @@ const Comp = makeComponent("button")([
     alignItems: "center",
     justifyContent: "center",
   },
-  "color",
-  "layout",
-  "space",
-  "border",
   "flexbox",
-  "position",
-  "shadow",
   "typography",
 ]);
 
@@ -40,7 +34,7 @@ const Button = ({ children, title, icon, onClick, disabled, ...rest }) => {
       {children || (
         <>
           {icon && title ? (
-            <Icon icon={icon} pr={2} />
+            <Icon icon={icon} pr="btnGap" />
           ) : icon ? (
             <Icon icon={icon} />
           ) : null}

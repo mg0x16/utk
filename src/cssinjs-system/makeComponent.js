@@ -13,6 +13,7 @@ import image from "./config/image";
 import typography from "./config/typography";
 import bgImage from "./config/bgImage";
 import bgGradient from "./config/bgGradient";
+import cursor from "./config/cursor";
 
 import { system } from "./config/core";
 
@@ -28,6 +29,17 @@ const allSystems = {
   typography,
   bgImage,
   bgGradient,
+  cursor,
+};
+
+const defaultSystems = {
+  color,
+  layout,
+  space,
+  border,
+  position,
+  shadow,
+  cursor,
 };
 
 const h = React.createElement;
@@ -43,7 +55,11 @@ const makeComponent = C => (
   // identify style-systems definition from normal style rule definition
   let collectedSystemsConfigs = {};
 
-  const rules = stylesOrSystems.reduce((acc, k, index) => {
+  // append default Systems
+  let sos = Object.keys(defaultSystems);
+  sos = sos.concat(stylesOrSystems);
+
+  const rules = sos.reduce((acc, k, index) => {
     // style system from predefined systems
     if (typeof k === "string") {
       const targetSystem = allSystems[k];

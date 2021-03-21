@@ -1,26 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeComponent } from "../../styles";
-
-import color from "../../systems/color";
-import layout from "../../systems/layout";
-import space from "../../systems/space";
-import border from "../../systems/border";
-import position from "../../systems/position";
-import background from "../../systems/background";
-import shadow from "../../systems/shadow";
+import { makeComponent } from "../../cssinjs-system";
 
 import Label from "./Label";
+import Text from "../Typography/Text";
 
-const Comp = makeComponent("input")(
-  [color, layout, space, border, position, background, shadow],
-  ["form.slider"],
-);
+const Comp = makeComponent("input")([{ flex: "1" }]);
 
 const Slider = ({ label, ...rest }) => (
-  <Label display="flex" flexDirection="column">
-    {label}
-    <Comp type="range" {...rest} />
+  <Label d="flex">
+    <Text>{label}</Text>
+    <Comp ml="formGap" type="range" {...rest} />
   </Label>
 );
 
