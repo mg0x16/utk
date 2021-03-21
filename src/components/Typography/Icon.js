@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 
-import { makeStyles } from "../styles";
+import { makeStyles } from "../../cssinjs-system";
 
-import color from "../systems/color";
-import space from "../systems/space";
-import border from "../systems/border";
-import shadow from "../systems/shadow";
-import typography from "../systems/typography";
-import position from "../systems/position";
+import color from "../../cssinjs-system/config/color";
+import space from "../../cssinjs-system/config/space";
+import border from "../../cssinjs-system/config/border";
+import shadow from "../../cssinjs-system/config/shadow";
+import typography from "../../cssinjs-system/config/typography";
+import position from "../../cssinjs-system/config/position";
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     animation: "spinning 1s linear infinite",
   },
   flip: {
-    transform: "scale(-1)",
+    transform: "scaleX(-1)",
   },
 });
 

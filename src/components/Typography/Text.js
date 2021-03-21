@@ -1,14 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { makeComponent } from "../styles";
-
-import color from "../systems/color";
-import layout from "../systems/layout";
-import space from "../systems/space";
-import border from "../systems/border";
-import shadow from "../systems/shadow";
-import typography from "../systems/typography";
+import { makeComponent } from "../../cssinjs-system";
 
 const tags = {
   span: "span",
@@ -23,10 +16,14 @@ const tags = {
 const Comps = Object.keys(tags).reduce((acc, name) => {
   const tag = tags[name];
 
-  acc[name] = makeComponent(tag)(
-    [color, layout, space, border, shadow, typography],
-    ["typography.root", `typography.${name}`],
-  );
+  acc[name] = makeComponent(tag)([
+    "color",
+    "layout",
+    "space",
+    "border",
+    "shadow",
+    "typography",
+  ]);
 
   return acc;
 }, {});

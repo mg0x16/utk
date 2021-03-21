@@ -29,11 +29,7 @@ const allSystems = {
 const h = React.createElement;
 
 // dynamic variables style props must passed to be used
-const makeComponent = C => (
-  stylesOrSystems = [],
-  // presetPaths = [],
-  // variants,
-) => {
+const makeComponent = C => (stylesOrSystems = []) => {
   // default _hover is chcked
   let styleProps = ["_hover"];
 
