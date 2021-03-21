@@ -1,13 +1,11 @@
 import { system } from "./core";
 
 const config = {
-  boxShadow: {
-    property: "boxShadow",
-    themeKey: "shadows",
+  bgGradient: {
+    property: "backgroundImage",
   },
-  textShadow: {
-    property: "textShadow",
-    themeKey: "shadows",
+  bgClip: {
+    property: "background-clip",
   },
 };
 

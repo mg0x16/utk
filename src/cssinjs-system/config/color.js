@@ -1,7 +1,10 @@
 import { system } from "./core";
 
 const config = {
-  backgroundColor: {
+  background: {
+    property: "background",
+  },
+  bgColor: {
     property: "backgroundColor",
   },
   color: {
@@ -10,7 +13,7 @@ const config = {
   opacity: true,
 };
 
-config.bg = config.backgroundColor;
+config.bg = config.background;
 config.c = config.color;
 
 export default { system: system(config), props: Object.keys(config) };

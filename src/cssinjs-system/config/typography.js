@@ -3,15 +3,19 @@ import { system } from "./core";
 const config = {
   fontSize: {
     property: "fontSize",
-    scale: "fontSizes",
+    themeKey: "fontSizes",
+  },
+  fontFamily: {
+    property: "fontFamily",
+    themeKey: "fonts",
   },
 
-  fontFamily: true,
   fontWeight: true,
   fontStyle: true,
   lineHeight: true,
   letterSpacing: true,
   textTransform: true,
+  textDecoration: true,
   textAlign: true,
 
   left: {
@@ -35,5 +39,6 @@ const config = {
 };
 
 config.fs = config.fontSize;
+config.font = config.fontFamily;
 
 export default { system: system(config), props: Object.keys(config) };

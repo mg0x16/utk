@@ -3,59 +3,59 @@ import { system } from "./core";
 const config = {
   margin: {
     property: "margin",
-    scale: "space",
+    themeKey: "spaces",
   },
   marginTop: {
     property: "marginTop",
-    scale: "space",
+    themeKey: "spaces",
   },
   marginRight: {
     property: "marginRight",
-    scale: "space",
+    themeKey: "spaces",
   },
   marginBottom: {
     property: "marginBottom",
-    scale: "space",
+    themeKey: "spaces",
   },
   marginLeft: {
     property: "marginLeft",
-    scale: "space",
+    themeKey: "spaces",
   },
   marginX: {
     properties: ["marginRight", "marginLeft"],
-    scale: "space",
+    themeKey: "spaces",
   },
   marginY: {
     properties: ["marginTop", "marginBottom"],
-    scale: "space",
+    themeKey: "spaces",
   },
   padding: {
     property: "padding",
-    scale: "space",
+    themeKey: "spaces",
   },
   paddingTop: {
     property: "paddingTop",
-    scale: "space",
+    themeKey: "spaces",
   },
   paddingRight: {
     property: "paddingRight",
-    scale: "space",
+    themeKey: "spaces",
   },
   paddingBottom: {
     property: "paddingBottom",
-    scale: "space",
+    themeKey: "spaces",
   },
   paddingLeft: {
     property: "paddingLeft",
-    scale: "space",
+    themeKey: "spaces",
   },
   paddingX: {
     properties: ["paddingRight", "paddingLeft"],
-    scale: "space",
+    themeKey: "spaces",
   },
   paddingY: {
     properties: ["paddingTop", "paddingBottom"],
-    scale: "space",
+    themeKey: "spaces",
   },
 };
 
@@ -76,4 +76,3 @@ config.px = config.paddingX;
 config.py = config.paddingY;
 
 export default { system: system(config), props: Object.keys(config) };
-

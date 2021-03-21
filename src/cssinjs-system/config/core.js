@@ -2,10 +2,8 @@ import _ from "lodash";
 
 import { getPreset } from "../preset";
 
-export const parseConfig = (config, cc) => {
-  const preset = cc || getPreset();
-
-  return Object.keys(config).reduce((acc, k) => {
+export const parseConfig = config =>
+  Object.keys(config).reduce((acc, k) => {
     let properties;
     if (typeof config[k] === "boolean" && config[k]) {
       // default property declaration
@@ -22,7 +20,6 @@ export const parseConfig = (config, cc) => {
         acc[n].push({
           key: k,
           value: v || "",
-          scale: preset.scales[config[k].scale],
           transform: config[k].transform,
           themeKey: config[k].themeKey,
         });
@@ -31,7 +28,6 @@ export const parseConfig = (config, cc) => {
           {
             key: k,
             value: v || "",
-            scale: preset.scales[config[k].scale],
             transform: config[k].transform,
             themeKey: config[k].themeKey,
           },
@@ -41,24 +37,6 @@ export const parseConfig = (config, cc) => {
 
     return acc;
   }, {});
-};
-
-// handle value scaling
-const getScaledValue = (value, scale) => {
-  // ignore scaling if string
-  if (typeof value === "string") return value;
-
-  // return original value if outbound of scale
-  if (typeof value === "number" && (value < 0 || value > scale.length - 1))
-    return value;
-
-  let result;
-  // scale single value and array of values
-  if (Array.isArray(value)) result = value.map(v => getScaledValue(v, scale));
-  else result = scale[value];
-
-  return result;
-};
 
 // handle value transform using transform fn
 const getTransformedValue = (value, transform) => {
@@ -68,6 +46,21 @@ const getTransformedValue = (value, transform) => {
   if (Array.isArray(value))
     result = value.map(v => getTransformedValue(v, transform));
   else result = transform(value);
+
+  return result;
+};
+
+// get theme key value
+const getThemeKeyValue = (value, themeKey) => {
+  const preset = getPreset();
+
+  let result = value;
+
+  if (Array.isArray(value))
+    result = value.map(v => _.get(preset, `${themeKey}.${v}`, v));
+  else {
+    result = _.get(preset, `${themeKey}.${value}`, value);
+  }
 
   return result;
 };
@@ -99,9 +92,9 @@ const firstValidValue = (props, selectors) => {
         v = getTransformedValue(v, currentSelector.transform);
       }
 
-      // transform value if scale exists
-      if (currentSelector.scale) {
-        v = getScaledValue(v, currentSelector.scale);
+      // get values from predefined presets (themeKey)
+      if (currentSelector.themeKey) {
+        v = getThemeKeyValue(v, currentSelector.themeKey);
       }
     }
 

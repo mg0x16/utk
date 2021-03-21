@@ -12,9 +12,10 @@ const Flex = makeComponent("div")([
   "border",
   "flexbox",
   "position",
-  "background",
   "shadow",
   "typography",
+  "bgImage",
+  "bgGradient",
 ]);
 
 export default Flex;

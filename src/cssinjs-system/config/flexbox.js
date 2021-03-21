@@ -1,26 +1,35 @@
 import { system } from "./core";
 
 const config = {
-  alignItems: true,
-  alignContent: true,
-  justifyItems: true,
-  justifyContent: true,
-  flexWrap: true,
-  flexDirection: true,
-  flex: true,
-  flexGrow: true,
-  flexShrink: true,
-  flexBasis: true,
-  justifySelf: true,
-  alignSelf: true,
-  order: true,
+  alignItems: {
+    property: "alignItems",
+  },
+  justifyContent: {
+    property: "justifyContent",
+  },
+
+  flexDirection: {
+    property: "flexDirection",
+  },
+
+  flexWrap: {
+    property: "flexWrap",
+  },
 
   row: {
     property: "flexDirection:row",
   },
 
+  column: {
+    property: "flexDirection:column",
+  },
+
   rowReverse: {
     property: "flexDirection:row-reverse",
+  },
+
+  columnReverse: {
+    property: "flexDirection:column-reverse",
   },
 
   start: {
@@ -54,6 +63,21 @@ const config = {
   center: {
     properties: ["alignItems:center", "justifyContent:center"],
   },
+
+  flex: true,
+  alignContent: true,
+  justifyItems: true,
+  flexGrow: true,
+  flexShrink: true,
+  flexBasis: true,
+  justifySelf: true,
+  alignSelf: true,
+  order: true,
 };
+
+config.align = config.alignItems;
+config.justify = config.justifyContent;
+config.wrap = config.flexWrap;
+config.flexDir = config.flexDirection;
 
 export default { system: system(config), props: Object.keys(config) };

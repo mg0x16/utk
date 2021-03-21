@@ -8,10 +8,11 @@ import space from "./config/space";
 import border from "./config/border";
 import flexbox from "./config/flexbox";
 import position from "./config/position";
-import background from "./config/background";
 import shadow from "./config/shadow";
 import image from "./config/image";
 import typography from "./config/typography";
+import bgImage from "./config/bgImage";
+import bgGradient from "./config/bgGradient";
 
 const allSystems = {
   color,
@@ -20,10 +21,11 @@ const allSystems = {
   border,
   flexbox,
   position,
-  background,
   shadow,
   image,
   typography,
+  bgImage,
+  bgGradient,
 };
 
 const h = React.createElement;
@@ -38,8 +40,12 @@ const makeComponent = C => (stylesOrSystems = []) => {
     // style system from predefined systems
     if (typeof k === "string") {
       const targetSystem = allSystems[k];
-      styleProps = [...styleProps, ...targetSystem.props];
-      return { ...acc, [index]: targetSystem.system };
+      if (targetSystem) {
+        styleProps = [...styleProps, ...targetSystem.props];
+        return { ...acc, [index]: targetSystem.system };
+      }
+
+      return acc;
     }
 
     // style system is provided

@@ -1,20 +1,21 @@
 import { system } from "./core";
 
 const config = {
-  background: true,
-
-  backgroundImage: {
+  bgImage: {
     property: "backgroundImage",
     transform: x => `url(${x})`,
   },
-  backgroundSize: {
+  bgSize: {
     property: "backgroundSize",
   },
-  backgroundPosition: {
+  bgPosition: {
     property: "backgroundPosition",
   },
-  backgroundRepeat: {
+  bgRepeat: {
     property: "backgroundRepeat",
+  },
+  bgAttachment: {
+    property: "backgroundAttachment",
   },
 
   cover: {
@@ -24,10 +25,5 @@ const config = {
     property: "backgroundSize:contain",
   },
 };
-
-config.bgImage = config.backgroundImage;
-config.bgSize = config.backgroundSize;
-config.bgPosition = config.backgroundPosition;
-config.bgRepeat = config.backgroundRepeat;
 
 export default { system: system(config), props: Object.keys(config) };

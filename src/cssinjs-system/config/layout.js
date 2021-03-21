@@ -11,12 +11,22 @@ const config = {
     properties: ["width", "height"],
   },
 
-  display: true,
+  minWidth: {
+    property: "minWidth",
+  },
+  maxWidth: {
+    property: "maxWidth",
+  },
+  minHeight: {
+    property: "minHeight",
+  },
+  maxHeight: {
+    property: "maxHeight",
+  },
 
-  minWidth: true,
-  maxWidth: true,
-  minHeight: true,
-  maxHeight: true,
+  display: {
+    property: "display",
+  },
 
   overflow: true,
   overflowX: true,
@@ -24,7 +34,12 @@ const config = {
   verticalAlign: true,
 };
 
+config.d = config.display;
 config.w = config.width;
 config.h = config.height;
+config.maxW = config.maxWidth;
+config.minW = config.minWidth;
+config.maxH = config.maxHeight;
+config.minH = config.minHeight;
 
 export default { system: system(config), props: Object.keys(config) };
