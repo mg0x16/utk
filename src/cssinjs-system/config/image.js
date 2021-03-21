@@ -14,4 +14,4 @@ const config = {
   },
 };
 
-export default { system: system(config), props: Object.keys(config) };
+export default { system: system(config), props: Object.keys(config), config };

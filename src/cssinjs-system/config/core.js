@@ -105,13 +105,14 @@ const firstValidValue = (props, selectors) => {
   return null;
 };
 
-export const system = (config, sc) => {
-  const parsedConfig = parseConfig(config, sc);
+export const system = (config, nestedProp) => {
+  const parsedConfig = parseConfig(config);
 
   return Object.keys(parsedConfig).reduce(
     (acc, k) => ({
       ...acc,
-      [k]: props => firstValidValue(props, parsedConfig[k]),
+      [k]: props =>
+        firstValidValue(_.get(props, nestedProp, props), parsedConfig[k]),
     }),
     {},
   );

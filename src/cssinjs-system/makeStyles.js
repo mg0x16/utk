@@ -102,9 +102,6 @@ const makeStyles = preset => (stylesOrFunc, joined = false) => {
     return { ...acc, [key]: result };
   }, {});
 
-  // pseudo-classes sent as props allowed list
-  const plist = ["_hover"];
-
   return (props = {}) => {
     const [updateDynamicClasses, setUpdateDynamicClasses] = useState(false);
     const firstUpdate = useRef(false);
@@ -117,19 +114,7 @@ const makeStyles = preset => (stylesOrFunc, joined = false) => {
 
     // generate dynamic classes when ever props change
     const dynamicsClasses = useMemo(
-      () => {
-        // append pseudo-class rules of supplied by props
-        plist.forEach(c => {
-          if (props[c]) {
-            seperatedStyles[c] = {
-              dynamics: { [c.replace("_", ":")]: props[c] },
-            };
-          }
-        });
-
-        return stylesReducer(seperatedStyles, "dynamics", props, mediaQueries);
-      },
-
+      () => stylesReducer(seperatedStyles, "dynamics", props, mediaQueries),
       // eslint-disable-next-line
       [updateDynamicClasses],
     );

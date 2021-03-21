@@ -42,4 +42,4 @@ config.minW = config.minWidth;
 config.maxH = config.maxHeight;
 config.minH = config.minHeight;
 
-export default { system: system(config), props: Object.keys(config) };
+export default { system: system(config), props: Object.keys(config), config };

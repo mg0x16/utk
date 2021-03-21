@@ -30,4 +30,4 @@ const config = {
 
 config.pos = config.position;
 
-export default { system: system(config), props: Object.keys(config) };
+export default { system: system(config), props: Object.keys(config), config };

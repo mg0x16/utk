@@ -14,6 +14,8 @@ import typography from "./config/typography";
 import bgImage from "./config/bgImage";
 import bgGradient from "./config/bgGradient";
 
+import { system } from "./config/core";
+
 const allSystems = {
   color,
   layout,
@@ -31,16 +33,26 @@ const allSystems = {
 const h = React.createElement;
 
 // dynamic variables style props must passed to be used
-const makeComponent = C => (stylesOrSystems = []) => {
+const makeComponent = C => (
+  stylesOrSystems = [],
+  { supportedPseudoClasses = ["_hover"] } = {},
+) => {
   // default _hover is chcked
-  let styleProps = ["_hover"];
+  let styleProps = [...supportedPseudoClasses];
 
   // identify style-systems definition from normal style rule definition
+  let collectedSystemsConfigs = {};
+
   const rules = stylesOrSystems.reduce((acc, k, index) => {
     // style system from predefined systems
     if (typeof k === "string") {
       const targetSystem = allSystems[k];
       if (targetSystem) {
+        collectedSystemsConfigs = {
+          ...collectedSystemsConfigs,
+          [k]: targetSystem.config,
+        };
+
         styleProps = [...styleProps, ...targetSystem.props];
         return { ...acc, [index]: targetSystem.system };
       }
@@ -57,6 +69,19 @@ const makeComponent = C => (stylesOrSystems = []) => {
     // normal raw style object is provided
     return { ...acc, [index]: k };
   }, {});
+
+  // append pseudo classes rules with systems that has nested props picker
+  supportedPseudoClasses.forEach(pc => {
+    rules[pc] = {
+      [pc.replace("_", ":")]: Object.keys(collectedSystemsConfigs).reduce(
+        (acc, k) => ({
+          ...acc,
+          ...system(collectedSystemsConfigs[k], pc),
+        }),
+        {},
+      ),
+    };
+  });
 
   const useStyles = makeStyles(rules, true);
 

@@ -75,4 +75,4 @@ config.pl = config.paddingLeft;
 config.px = config.paddingX;
 config.py = config.paddingY;
 
-export default { system: system(config), props: Object.keys(config) };
+export default { system: system(config), props: Object.keys(config), config };

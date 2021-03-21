@@ -105,4 +105,4 @@ config.rtr = config.borderTopRightRadius;
 config.rbl = config.borderBottomLeftRadius;
 config.rbr = config.borderBottomRightRadius;
 
-export default { system: system(config), props: Object.keys(config) };
+export default { system: system(config), props: Object.keys(config), config };

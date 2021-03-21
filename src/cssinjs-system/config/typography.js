@@ -41,4 +41,4 @@ const config = {
 config.fs = config.fontSize;
 config.font = config.fontFamily;
 
-export default { system: system(config), props: Object.keys(config) };
+export default { system: system(config), props: Object.keys(config), config };
