@@ -293,4 +293,6 @@ describe("Parsing Js defined styles", () => {
       value: "blue",
     });
   });
+
+  // TODO test pallate
 });

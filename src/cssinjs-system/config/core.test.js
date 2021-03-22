@@ -135,77 +135,9 @@ describe("Generate style system", () => {
     ]);
   });
 
-  test("properties value with scale", () => {
-    const sc = {
-      scales: {
-        testScale: [4, 6, 10, 20],
-      },
-    };
-
-    const config = {
-      fs: {
-        property: "fontSize",
-        scale: "testScale",
-      },
-    };
-    const res = system(config, sc);
-    sc.scales.testScale.forEach((x, index) => {
-      expect(res.fontSize({ fs: index })).toBe(x);
-    });
-  });
-
-  test("properties value outbound of scale array return original value", () => {
-    const sc = {
-      scales: {
-        testScale: [4, 6, 10, 20],
-      },
-    };
-
-    const config = {
-      fs: {
-        property: "fontSize",
-        scale: "testScale",
-      },
-    };
-    const res = system(config, sc);
-    expect(res.fontSize({ fs: 20 })).toBe(20);
-  });
-
-  test("properties with string value ignore scale", () => {
-    const sc = {
-      scales: {
-        testScale: [4, 6, 10, 20],
-      },
-    };
-
-    const config = {
-      m: {
-        property: "margin",
-        scale: "testScale",
-      },
-    };
-    const res = system(config, sc);
-    expect(res.margin({ m: "auto" })).toBe("auto");
-  });
-
-  test("properties array value with scale", () => {
-    const sc = {
-      scales: {
-        testScale: [4, 6, 10, 20],
-      },
-    };
-
-    const config = {
-      fs: {
-        property: "fontSize",
-        scale: "testScale",
-      },
-    };
-    const res = system(config, sc);
-    expect(res.fontSize({ fs: [1, "50px", 3, 0, 300] })).toEqual(
-      expect.arrayContaining([6, "50px", 20, 4, 300]),
-    );
-  });
+  // TODO test themeKey
+  // TODO test themeKey in array
+  // TODO test nestedProp
 
   test("transform function definition", () => {
     const config = {
