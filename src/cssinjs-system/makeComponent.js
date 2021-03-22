@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import _ from "lodash";
 
 import makeStyles from "./makeStyles";
 
@@ -16,6 +17,8 @@ import bgGradient from "./config/bgGradient";
 import cursor from "./config/cursor";
 
 import { system } from "./config/core";
+
+import { useTheme } from "../theme";
 
 const allSystems = {
   color,
@@ -47,7 +50,7 @@ const h = React.createElement;
 // dynamic variables style props must passed to be used
 const makeComponent = C => (
   stylesOrSystems = [],
-  { supportedPseudoClasses = ["_hover"] } = {},
+  { supportedPseudoClasses = ["_hover"], nameID = "" } = {},
 ) => {
   // default _hover is chcked
   let styleProps = [...supportedPseudoClasses];
@@ -102,9 +105,13 @@ const makeComponent = C => (
   const useStyles = makeStyles(rules, true);
 
   const Comp = forwardRef((props, ref) => {
+    const { theme } = useTheme();
+
     // copy all props
     const nextProps = { ref };
-    const nextStyleProps = {};
+
+    // add additional theme props
+    const nextStyleProps = { ..._.get(theme, `components.${nameID}`, {}) };
 
     // seperate style props from other props
     Object.keys(props).forEach(key => {
@@ -116,7 +123,7 @@ const makeComponent = C => (
     });
 
     // create style classes
-    const classes = useStyles(nextStyleProps);
+    const classes = useStyles(nextStyleProps, { palette: theme.palette });
 
     // add generated className to props
     const className = `${classes || ""} ${props.className || ""}`.trim();

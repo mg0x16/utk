@@ -6,7 +6,7 @@ import { makeComponent } from "../../cssinjs-system";
 const tags = ["h1", "h2", "h3", "h4", "h5", "h6"];
 
 const Comps = tags.reduce((acc, item) => {
-  acc[item] = makeComponent(item)(["typography"]);
+  acc[item] = makeComponent(item)(["typography", { margin: 0 }]);
 
   return acc;
 }, {});

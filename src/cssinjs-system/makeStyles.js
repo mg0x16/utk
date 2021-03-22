@@ -10,7 +10,7 @@ import parseRule from "./parseRule";
 import { getPreset } from "./preset";
 
 // this is responsible for converting javascript style object to css and return className
-const stylesReducer = (styles, type, props, mediaQueries) =>
+const stylesReducer = (styles, type, props, mediaQueries, palette) =>
   Object.keys(styles).reduce((acc, key) => {
     const rule = styles[key][type];
 
@@ -18,7 +18,7 @@ const stylesReducer = (styles, type, props, mediaQueries) =>
     if (!Object.keys(rule).length) return acc;
 
     // parse css in js rule
-    const parsed = parseRule({ rule, props, mediaQueries });
+    const parsed = parseRule({ rule, props, mediaQueries, palette });
     if (!parsed.length) return acc;
 
     // check if in cache
@@ -102,19 +102,27 @@ const makeStyles = preset => (stylesOrFunc, joined = false) => {
     return { ...acc, [key]: result };
   }, {});
 
-  return (props = {}) => {
+  return (props = {}, { palette } = {}) => {
     const [updateDynamicClasses, setUpdateDynamicClasses] = useState(false);
     const firstUpdate = useRef(false);
 
     // generate static classes alone to prevent recomputing
     const staticClasses = useMemo(
-      () => stylesReducer(seperatedStyles, "statics", {}, mediaQueries),
-      [],
+      () =>
+        stylesReducer(seperatedStyles, "statics", {}, mediaQueries, palette),
+      [palette],
     );
 
     // generate dynamic classes when ever props change
     const dynamicsClasses = useMemo(
-      () => stylesReducer(seperatedStyles, "dynamics", props, mediaQueries),
+      () =>
+        stylesReducer(
+          seperatedStyles,
+          "dynamics",
+          props,
+          mediaQueries,
+          palette,
+        ),
       // eslint-disable-next-line
       [updateDynamicClasses],
     );
@@ -126,7 +134,7 @@ const makeStyles = preset => (stylesOrFunc, joined = false) => {
         firstUpdate.current = true;
       }
       // eslint-disable-next-line
-    }, [props]);
+    }, [props, palette]);
 
     // merge classes
     const combinedClasses = { ...staticClasses };

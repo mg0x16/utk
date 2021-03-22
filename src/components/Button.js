@@ -5,19 +5,24 @@ import { makeComponent } from "../cssinjs-system";
 
 import Icon from "./Typography/Icon";
 
-const Comp = makeComponent("button")([
+const Comp = makeComponent("button")(
+  [
+    {
+      boxSizing: "border-box",
+      userSelect: "none",
+      outline: "none",
+      cursor: "pointer",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    "flexbox",
+    "typography",
+  ],
   {
-    boxSizing: "border-box",
-    userSelect: "none",
-    outline: "none",
-    cursor: "pointer",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
+    nameID: "button",
   },
-  "flexbox",
-  "typography",
-]);
+);
 
 const Button = ({ children, title, icon, onClick, disabled, ...rest }) => {
   const handleOnClick = useCallback(

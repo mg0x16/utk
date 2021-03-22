@@ -7,7 +7,6 @@ const Flex = makeComponent("div")([
     flexDirection: "column",
   },
   "flexbox",
-  "typography",
   "bgImage",
   "bgGradient",
 ]);
