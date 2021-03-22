@@ -1,43 +1,30 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
-import { makeComponent } from "../styles";
+import { makeComponent } from "../cssinjs-system";
 
-import color from "../systems/color";
-import layout from "../systems/layout";
-import space from "../systems/space";
-import border from "../systems/border";
-import flexbox from "../systems/flexbox";
-import position from "../systems/position";
-import shadow from "../systems/shadow";
-import typography from "../systems/typography";
+import Icon from "./Typography/Icon";
 
 const Comp = makeComponent("button")(
   [
     {
       boxSizing: "border-box",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
       userSelect: "none",
       outline: "none",
       cursor: "pointer",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
-    color,
-    layout,
-    space,
-    border,
-    flexbox,
-    position,
-    shadow,
-    typography,
+    "flexbox",
+    "typography",
   ],
-  ["buttons.root"],
-  "buttons",
+  {
+    nameID: "button",
+  },
 );
 
-const Button = ({ text, icon, onClick, disabled, ...rest }) => {
+const Button = ({ children, title, icon, onClick, disabled, ...rest }) => {
   const handleOnClick = useCallback(
     e => {
       if (disabled) return;
@@ -49,15 +36,24 @@ const Button = ({ text, icon, onClick, disabled, ...rest }) => {
 
   return (
     <Comp onClick={handleOnClick} disabled={disabled} {...rest}>
-      {icon && text ? React.cloneElement(icon, { pr: 2 }) : icon}
-      {text}
+      {children || (
+        <>
+          {icon && title ? (
+            <Icon icon={icon} pr="btnGap" />
+          ) : icon ? (
+            <Icon icon={icon} />
+          ) : null}
+          {title}
+        </>
+      )}
     </Comp>
   );
 };
 
 Button.propTypes = {
-  text: PropTypes.string,
-  icon: PropTypes.node,
+  children: PropTypes.node,
+  title: PropTypes.string,
+  icon: PropTypes.func,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
