@@ -5,7 +5,7 @@ import anime from "animejs";
 
 const capitalize = s => s && s[0].toUpperCase() + s.slice(1);
 
-const AnimationWrapper = ({
+const Animation = ({
   children,
   duration = 1000,
   easing = "easeInOutQuad",
@@ -70,23 +70,15 @@ const AnimationWrapper = ({
   );
 };
 
-AnimationWrapper.propTypes = {
+Animation.propTypes = {
   children: PropTypes.node,
   duration: PropTypes.number,
   easing: PropTypes.string,
   status: PropTypes.string,
-  onEntered: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ),
-  onEntering: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ),
-  onExited: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ),
-  onExiting: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ),
+  onEntered: PropTypes.objectOf(PropTypes.any),
+  onEntering: PropTypes.objectOf(PropTypes.any),
+  onExited: PropTypes.objectOf(PropTypes.any),
+  onExiting: PropTypes.objectOf(PropTypes.any),
 };
 
-export default AnimationWrapper;
+export default Animation;

@@ -230,14 +230,15 @@ const defaultPreset = {
     md: "1rem",
     lg: "1.125rem",
     xl: "1.25rem",
-    "2x": "1.5rem",
-    "3x": "1.875rem",
-    "4x": "2.25rem",
-    "5x": "3rem",
-    "6x": "3.75rem",
-    "7x": "4.5rem",
-    "8x": "6rem",
-    "9x": "8rem",
+    x1: "1.5rem",
+    x2: "1.875rem",
+    x3: "2.25rem",
+    x4: "3rem",
+    x5: "3.75rem",
+    x6: "4.5rem",
+    x7: "6rem",
+    x8: "8rem",
+    x9: "10rem",
   },
   spaces: {
     formGap: "0.5rem",
@@ -265,7 +266,7 @@ const defaultPreset = {
   shadows: {
     xs: "0 0 0 1px rgba(0, 0, 0, 0.05)",
     sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-    base: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    x1: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
     "2x":
       "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
     "3x":

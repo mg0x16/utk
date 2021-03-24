@@ -76,6 +76,9 @@ const config = {
   borderBottomRightRadius: {
     property: "borderBottomRightRadius",
   },
+  rounded: {
+    property: "borderRadius:100%",
+  },
 };
 
 config.b = config.border;

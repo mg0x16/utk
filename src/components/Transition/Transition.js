@@ -2,29 +2,24 @@ import React from "react";
 import { Transition as ReactTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 
-import Animation from "./AnimationWrapper";
-
 const Transition = ({
   children,
-  duration,
+  duration = 1000,
   mountOnEnter = true,
   unmountOnExit = true,
-  appear = false,
+  appear = true,
   in: inProps,
   ...rest
 }) => (
   <ReactTransition
-    mountOnEnter={mountOnEnter}
-    unmountOnExit={unmountOnExit}
+    in={inProps}
     timeout={duration}
     appear={appear}
-    in={inProps}
+    mountOnEnter={mountOnEnter}
+    unmountOnExit={unmountOnExit}
+    {...rest}
   >
-    {status => (
-      <Animation duration={duration} status={status} {...rest}>
-        {children}
-      </Animation>
-    )}
+    {children}
   </ReactTransition>
 );
 
@@ -35,6 +30,8 @@ Transition.propTypes = {
   unmountOnExit: PropTypes.bool,
   appear: PropTypes.bool,
   in: PropTypes.bool,
+  onEnter: PropTypes.func,
+  onExit: PropTypes.func,
 };
 
 export default Transition;
